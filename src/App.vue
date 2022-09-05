@@ -1,7 +1,7 @@
 <template>
   <nav>
-    <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/"><i class="bi bi-house-door-fill nav-icon"></i></router-link>
+    <router-link to="/settings"><i class="bi bi-gear-fill nav-icon"></i></router-link>
   </nav>
   <router-view/>
 </template>
@@ -12,19 +12,29 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #6d7276;
 }
 
 nav {
-  padding: 30px;
+  padding: 30px;  
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #6d7276;
+}
+
+nav a:hover{
+  color: #42b983;
 }
 
 nav a.router-link-exact-active {
   color: #42b983;
 }
+
+.nav-icon{
+  font-size: 30px;
+  margin: 0 5px;
+}
+
 </style>
