@@ -1,8 +1,8 @@
 <template>
-  <div class="container row">
-    <div class="col-lg-9 time-container">
+  <div class="container row justify-content-center">
+    <div class="col-lg-9 col-sm-12 col-md-12 time-container">
 
-      <div class="alert alert-warning alert-dismissible fade" role="alert" v-show="warning">
+      <div class="alert alert-warning alert-dismissible fade" role="alert" v-show="warning" id="warning">
         <strong> Enter valid record </strong>
         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
       </div>
@@ -17,11 +17,11 @@
       <div><button type="button" class="timerControll" @click="startCount">Let's break that record</button></div>
     </div>
 
-    <div class="col-lg-3 col-sm-12">
+    <div class="col-lg-3 col-sm-12 col-md-12">
       <!-- <input type="text" v-model="newRecord">
       <button @click="b">Lets break it</button> -->
       
-        <RecordsTab @setRecord="news"/>
+        <RecordsTab @setRecord="setRecord"/>
     </div>
 
     
@@ -48,19 +48,20 @@ export default {
 
     let recordTitleInTimerContainer = ref(null);
 
-    let newRecord = ref("");
+    // let newRecord = ref("");
 
     let warning;
+    let recordTime = ref(`${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`);
     // let emptyInputWarning = ref(null)
 
     // let getNewRecord = computed((value) => {
     //     newRecord.value = value
     // })
 
-    function setRecord (val) {
-        newRecord.value = val;
-      recordTitleInTimerContainer.value = newRecord.value;
-    }
+    // function setRecord (val) {
+    //     newRecord.value = val;
+    //   recordTitleInTimerContainer.value = newRecord.value;
+    // }
 
     function startCount() {
       setInterval(() => {
@@ -91,20 +92,20 @@ export default {
       }, 1000)
     }
 
-    function news(record) {
-      if (record == "") {
-        // emptyInputWarning.value = "Enter valid record";
-        warning = true;
-        alert(1234567890)
-        document.getElementById('warning').classList.add = "show"
-      } else {
-        warning = false;
+    function setRecord(record) {
+      // if (record == "") {
+      //   // emptyInputWarning.value = "Enter valid record";
+      //   // warning = true;
+      //   alert(1234567890)
+      //   document.getElementById('warning').classList.add = "show"
+      // } else {
+      // }
+        // warning = false;
       recordTitleInTimerContainer.value = record;
-      }
     }
 
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, newRecord, input, setRecord, news, warning }
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer,  input, setRecord, warning, recordTime }
   }
 
   
