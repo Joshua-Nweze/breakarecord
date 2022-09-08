@@ -1,11 +1,6 @@
 <template>
-  <div class="container row justify-content-center">
+  <div class="container row">
     <div class="col-lg-9 col-sm-12 col-md-12 time-container">
-
-      <div class="alert alert-warning alert-dismissible fade" role="alert" v-show="warning" id="warning">
-        <strong> Enter valid record </strong>
-        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-      </div>
 
       <div class="recordTitle" v-html="recordTitleInTimerContainer"></div>
       
@@ -50,7 +45,6 @@ export default {
 
     // let newRecord = ref("");
 
-    let warning;
     let recordTime = ref(`${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`);
     // let emptyInputWarning = ref(null)
 
@@ -105,7 +99,7 @@ export default {
     }
 
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer,  input, setRecord, warning, recordTime }
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer,  input, setRecord, recordTime }
   }
 
   

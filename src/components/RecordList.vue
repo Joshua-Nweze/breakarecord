@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div class="card text-start mt-3">
-        <div class="card-header">Featured {{recordTitle}}
+    <div v-for="record in recordDetails" :key="record.id" class="card text-start mt-3">
+        <div class="card-header"> {{record.name}}
             <span class="dropdown float-end">
                 <i class="bi bi-three-dots-vertical dropdown-toggle dropdown-icon" data-bs-toggle="dropdown"></i>
         
@@ -12,7 +12,7 @@
             </span>
         </div>
         <div class="card-body">
-            <p class="card-text">Last record: recordTime</p>
+            <p class="card-text">Last record: {{record.time}}</p>
         </div>
     </div>
 
@@ -23,7 +23,7 @@
 <script>
 export default {
     name: "RecordList",
-    props: [ "recordTitle" ],
+    props: [ "recordTitle", "recordDetails" ],
 
     setup (props) {
         console.log(props.recordTitle);
