@@ -17,7 +17,7 @@
     <!-- Records details -->
     <div class="mb-3 mt-3" v-show="showAddRecord">
             <div class="input-group">
-                <input v-model="newRecord" type="text" class="form-control" placeholder="Enter a new record">
+                <input v-model="newRecord" @keypress.enter="setRecord" type="text" class="form-control" placeholder="Enter a new record">
                 <button @click="setRecord" type="submit" class="input-group-text">Set</button>
             </div>
             
@@ -67,18 +67,16 @@ export default {
             } else {
                 const NEW_RECORD = reactive({
                     
-                        id : Math.floor(Math.random() * 10000000),
-                        name : recordTitle,
-                        time : 20
-                    
+                    id : Math.floor(Math.random() * 10000000),
+                    name : recordTitle,
+                    time : Math.floor(Math.random() * 10000000)
                     
             })
 
-                recordDetails = [...recordDetails, NEW_RECORD]
+                recordDetails.unshift(...recordDetails, NEW_RECORD);
 
-            recordTitle.value = newRecord.value;
-            // console.log(newRecord.value);
-            newRecord.value = "";
+                recordTitle.value = newRecord.value;
+                newRecord.value = "";
             }
 
         }
@@ -92,7 +90,6 @@ export default {
                 addBtnColor.value = "pink"
             }
         }
-
 
         return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, arr, recordTitle, warning, recordDetails }
     },

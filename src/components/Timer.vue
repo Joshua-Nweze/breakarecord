@@ -1,6 +1,6 @@
 <template>
-  <div class="container row">
-    <div class="col-lg-9 col-sm-12 col-md-12 time-container">
+  <div class="container row align-items">
+    <div class="col-lg-9 col-sm-12 col-md-12">
 
       <div class="recordTitle" v-html="recordTitleInTimerContainer"></div>
       
@@ -12,24 +12,25 @@
       <div><button type="button" class="timerControll" @click="startCount">Let's break that record</button></div>
     </div>
 
-    <div class="col-lg-3 col-sm-12 col-md-12">
+    <div class="col-lg-3 col-sm-12 col-md-12 records-container">
       <!-- <input type="text" v-model="newRecord">
       <button @click="b">Lets break it</button> -->
       
         <RecordsTab @setRecord="setRecord"/>
     </div>
 
-    
+    <Footer />
   </div>
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
 import RecordsTab from "@/components/RecordsTab.vue"
+import Footer from "@/components/Footer.vue"
 import { computed } from '@vue/runtime-core';
 export default {
   name: "Timer",
-  components: { RecordsTab },
+  components: { RecordsTab, Footer },
 
   setup() {
     let hourOne = ref(0);
@@ -128,8 +129,8 @@ export default {
         .time{
           font-size: 100px;
         }
-        .time-container{
-          border-right: 1px solid ;
+        .records-container{
+          border-left: 1px solid ;
         }
     }
 
