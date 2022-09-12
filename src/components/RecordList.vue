@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-for="record in recordDetails" :key="record.id" class="card text-start mt-3">
+    <div v-for="(record, index) in recordDetails" :key="index" class="card text-start mt-3">
         <div class="card-header"> {{record.name}}
             <span class="dropdown float-end">
                 <i class="bi bi-three-dots-vertical dropdown-toggle dropdown-icon" data-bs-toggle="dropdown"></i>
@@ -26,7 +26,7 @@ export default {
     props: [ "recordTitle", "recordDetails" ],
 
     setup (props) {
-        console.log(props.recordTitle);
+        // console.log(props.recordTitle);
     }
 }
 </script>

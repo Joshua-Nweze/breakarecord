@@ -9,7 +9,7 @@
       <span class="time" v-html="secondOne"></span><span class="time" v-html="secondTwo"></span>
       
 
-      <div><button type="button" class="timerControll" @click="startCount">Let's break that record</button></div>
+      <div><button type="button" class="timerControll" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
     </div>
 
     <div class="col-lg-3 col-sm-12 col-md-12 records-container">
@@ -44,26 +44,18 @@ export default {
 
     let recordTitleInTimerContainer = ref(null);
 
-    // let newRecord = ref("");
+    let counting = ref(false)
 
     let recordTime = ref(`${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`);
-    // let emptyInputWarning = ref(null)
-
-    // let getNewRecord = computed((value) => {
-    //     newRecord.value = value
-    // })
-
-    // function setRecord (val) {
-    //     newRecord.value = val;
-    //   recordTitleInTimerContainer.value = newRecord.value;
-    // }
 
     function startCount() {
-      setInterval(() => {
+        counting.value =! counting.value;
+      if (counting) {
+        let i = setInterval(() => {
         secondTwo .value++;
 
-        if (secondTwo .value == 10) {
-          secondTwo .value = 0;
+        if (secondTwo.value == 10) {
+          secondTwo.value = 0;
           secondOne.value++;
         }
         if (secondOne.value == 6) {
@@ -85,22 +77,20 @@ export default {
           hourOne.value++;
         }
       }, 1000)
+      }
+
+      if (counting) {
+        clearInterval(i);
+      }
+      
     }
 
     function setRecord(record) {
-      // if (record == "") {
-      //   // emptyInputWarning.value = "Enter valid record";
-      //   // warning = true;
-      //   alert(1234567890)
-      //   document.getElementById('warning').classList.add = "show"
-      // } else {
-      // }
-        // warning = false;
       recordTitleInTimerContainer.value = record;
     }
 
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer,  input, setRecord, recordTime }
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer,  input, setRecord, recordTime, counting, }
   }
 
   

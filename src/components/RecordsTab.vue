@@ -50,13 +50,22 @@ export default {
         //     return showAddRecord ? "black" : "red"
         // }) 
 
-        let recordDetails = reactive([
+        let recordDetails = ref([
+                {
+                    name : "beans time",
+                    time : 279
+                }
+         ])
+
+        recordDetails.value.push(
             {
-                id : 1,
-                name : "beans time",
-                time : 279
+                name : "beans",
+                time: 4567
             }
-        ])
+            
+        )
+
+
 
         function setRecord() {
             // e.preventDefault();
@@ -68,14 +77,15 @@ export default {
                 const NEW_RECORD = reactive({
                     
                     id : Math.floor(Math.random() * 10000000),
-                    name : recordTitle,
+                    name : newRecord.value,
                     time : Math.floor(Math.random() * 10000000)
                     
             })
 
-                recordDetails.unshift(...recordDetails, NEW_RECORD);
+                recordDetails.value.unshift(NEW_RECORD);
 
                 recordTitle.value = newRecord.value;
+                console.log(newRecord.value);
                 newRecord.value = "";
             }
 
