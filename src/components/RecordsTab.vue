@@ -8,8 +8,8 @@
         <button type="button" class="btn float-end" :style="{color: addBtnColor}" @click="toggleShowAddRecord">{{ showAddRecord ? "Close" : "Set Record" }}</button>
 
 
-        <div class="alert alert-warning alert-dismissible fade show" role="alert" v-show="warning" id="warning">
-            <strong> Enter valid record </strong>
+        <div class="alert alert-warning alert-dismissible fade show" role="alert" v-show="warning">
+            <strong v-html="warningMessage"></strong>
             <button type="button" @click="warning = false" class="btn-close"></button>
         </div>
     </div>
@@ -25,6 +25,10 @@
 
     <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails"/>
 </template>
+
+
+
+
 
 <script>
 import { reactive, ref } from '@vue/reactivity'
@@ -43,53 +47,61 @@ export default {
         let showAddRecord = ref(true);
 
         let addBtnColor = ref("pink")
-        let arr = ref([]);
         let recordTitle = ref("")
         let warning = ref(false)
+        let warningMessage = ref("")
         // let addBtnColor = computed (() => {
         //     return showAddRecord ? "black" : "red"
         // }) 
 
-        let recordDetails = ref([
+        let recordDetails = reactive([
                 {
                     name : "beans time",
                     time : 279
                 }
          ])
 
-        recordDetails.value.push(
-            {
-                name : "beans",
-                time: 4567
-            }
-            
-        )
-
-
 
         function setRecord() {
             // e.preventDefault();
             ctx.emit("setRecord", newRecord.value);
-            if (newRecord.value == "") {
-                warning.value = true;
-                // return;
-            } else {
+            if (newRecord.value != "") {
+
+                for (const j in recordDetails) {
+                    if (Object.hasOwn(recordDetails, j)) {
+                        const element = recordDetails[j];
+                        console.log(element);
+                        if (newRecord.value == element.name) {
+                            warningMessage.value = `"${newRecord.value}" already exists`;
+                            warning.value = true;
+
+                            return
+                        }
+                    }
+                }
+
                 const NEW_RECORD = reactive({
                     
-                    id : Math.floor(Math.random() * 10000000),
+                    
                     name : newRecord.value,
                     time : Math.floor(Math.random() * 10000000)
                     
-            })
+                })
 
-                recordDetails.value.unshift(NEW_RECORD);
+                recordDetails.unshift(NEW_RECORD);
 
                 recordTitle.value = newRecord.value;
                 console.log(newRecord.value);
                 newRecord.value = "";
+
+            } else {
+                warningMessage.value = "Enter valid record";
+                warning.value = true;
+                console.log(newRecord.value);
             }
 
         }
+
 
         function toggleShowAddRecord() {
             showAddRecord.value =! showAddRecord.value;
@@ -101,13 +113,17 @@ export default {
             }
         }
 
-        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, arr, recordTitle, warning, recordDetails }
+        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage };
     },
 
     emits: ["setRecord"]
 
 }
 </script>
+
+
+
+
 
 <style scoped>
     .form-control:focus{
