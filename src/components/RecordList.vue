@@ -2,14 +2,14 @@
   <div>
     <div v-for="(record, index) in recordDetails" :key="index" class="card text-start mt-3">
         <div class="card-header"> {{record.name}}
-            <span class="dropdown float-end">
-                <i class="bi bi-three-dots-vertical dropdown-toggle dropdown-icon" data-bs-toggle="dropdown"></i>
+            
+                <i class="bi bi-three-dots-vertical dropdown-toggle dropdown-icon float-end" data-bs-toggle="dropdown"></i>
         
                 <ul class="dropdown-menu">
                     <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square"></i>  Edit</a></li> 
                     <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash3"></i>  Delete</a></li>
                 </ul>
-            </span>
+            
         </div>
         <div class="card-body">
             <p class="card-text">Last record: {{record.time}}</p>

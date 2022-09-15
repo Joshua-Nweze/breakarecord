@@ -2,24 +2,28 @@
   <div class="container row align-items">
     <div class="col-lg-9 col-sm-12 col-md-12">
 
-      <div class="recordTitle" v-html="recordTitleInTimerContainer"></div>
+      <div class="alert alert-success alert-dismissible fade show" v-show="showRecordTitleInTimerContainer">
+          <strong v-html="recordTitleInTimerContainer"></strong>
+          <button type="button" class="btn-close" @click="showRecordTitleInTimerContainer = false"></button>
+      </div>
       
       <span class="time" v-html="hourOne"></span><span class="time" v-html="hourTwo"></span><span class="time">:</span>
       <span class="time" v-html="minuteOne"></span><span class="time" v-html="minuteTwo"></span><span class="time">:</span>
       <span class="time" v-html="secondOne"></span><span class="time" v-html="secondTwo"></span>
       
 
-      <div><button type="button" class="timerControll" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
+      <div><button type="button" class="timerControl" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
     </div>
 
     <div class="col-lg-3 col-sm-12 col-md-12 records-container">
       <!-- <input type="text" v-model="newRecord">
       <button @click="b">Lets break it</button> -->
       
-        <RecordsTab @setRecord="setRecord"/>
+        <RecordsTab @setRecord="setRecord" :recordTime="recordTime"/>
     </div>
 
     <Footer />
+
   </div>
 </template>
 
@@ -43,10 +47,12 @@ export default {
     let input = ref(null);
 
     let recordTitleInTimerContainer = ref(null);
+    let showRecordTitleInTimerContainer = ref(false)
 
     let counting = ref(false)
 
     let recordTime = ref(`${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`);
+    console.log(recordTime.value);
 
     function startCount() {
         counting.value =! counting.value;
@@ -86,11 +92,20 @@ export default {
     }
 
     function setRecord(record) {
-      recordTitleInTimerContainer.value = record;
+      let regex = /^\s*$/;
+      
+      if (!regex.test(record)){
+        recordTitleInTimerContainer.value = record;
+        showRecordTitleInTimerContainer.value = true;
+      }
+
     }
+        
+     
 
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer,  input, setRecord, recordTime, counting, }
+
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer,  input, setRecord, recordTime, counting, showRecordTitleInTimerContainer }
   }
 
   
@@ -124,7 +139,7 @@ export default {
         }
     }
 
-    .timerControll{
+    .timerControl{
       background-color: #42b983;
       border-radius: 2px;
       border: none;

@@ -37,7 +37,7 @@ import { computed } from '@vue/runtime-core'
 
 export default {
     name: "RecordTab",
-    // props: [ "get"],
+    props: [ "recordTime"],
     components: {
         RecordList
     },
@@ -65,13 +65,14 @@ export default {
         function setRecord() {
             // e.preventDefault();
             ctx.emit("setRecord", newRecord.value);
-            if (newRecord.value != "") {
+            let regex = /^\s*$/;
+            if (!regex.test(newRecord.value)) {
 
                 for (const j in recordDetails) {
                     if (Object.hasOwn(recordDetails, j)) {
-                        const element = recordDetails[j];
-                        console.log(element);
-                        if (newRecord.value == element.name) {
+                        const record = recordDetails[j];
+                        console.log(record);
+                        if (newRecord.value == record.name) {
                             warningMessage.value = `"${newRecord.value}" already exists`;
                             warning.value = true;
 
@@ -84,7 +85,7 @@ export default {
                     
                     
                     name : newRecord.value,
-                    time : Math.floor(Math.random() * 10000000)
+                    time : 0
                     
                 })
 
