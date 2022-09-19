@@ -1,6 +1,6 @@
 <template>
     <footer class="mt-5">
-        2022
+        &copy; {{ new Date().getFullYear() }} Designed and built by Joshua Nweze
     </footer>
 </template>
 
@@ -11,5 +11,9 @@ export default {
 </script>
 
 <style>
-
+@media only screen and (max-width: 480px)  {
+    footer {
+        font-size: 13px;
+    }
+}
 </style>

@@ -46,18 +46,23 @@ export default {
 
     let input = ref(null);
 
+
     let recordTitleInTimerContainer = ref(null);
     let showRecordTitleInTimerContainer = ref(false)
 
     let counting = ref(false)
 
     let recordTime = ref(`${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`);
-    console.log(recordTime.value);
 
     function startCount() {
         counting.value =! counting.value;
-      if (counting) {
-        let i = setInterval(() => {
+        setInterval(() => {
+          if (!recordTitleInTimerContainer) {
+            alert("Enter record first");
+            console.log(2132443);
+
+            return;
+          }
         secondTwo .value++;
 
         if (secondTwo.value == 10) {
@@ -83,17 +88,12 @@ export default {
           hourOne.value++;
         }
       }, 1000)
-      }
-
-      if (counting) {
-        clearInterval(i);
-      }
       
     }
 
     function setRecord(record) {
       let regex = /^\s*$/;
-      
+
       if (!regex.test(record)){
         recordTitleInTimerContainer.value = record;
         showRecordTitleInTimerContainer.value = true;

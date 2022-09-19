@@ -23,7 +23,10 @@
             
     </div>
 
+    <div v-if="noRecord">No record to show</div>
+
     <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails"/>
+
 </template>
 
 
@@ -37,28 +40,29 @@ import { computed } from '@vue/runtime-core'
 
 export default {
     name: "RecordTab",
-    props: [ "recordTime"],
+    props: [ "recordTime" ],
     components: {
         RecordList
     },
 
     setup (props, ctx) {
         let newRecord = ref("");
-        let showAddRecord = ref(true);
+        let showAddRecord = ref(false);
+        let noRecord = ref(true);
 
-        let addBtnColor = ref("pink")
-        let recordTitle = ref("")
-        let warning = ref(false)
-        let warningMessage = ref("")
+        let addBtnColor = ref("pink");
+        let recordTitle = ref("");
+        let warning = ref(false);
+        let warningMessage = ref("");
         // let addBtnColor = computed (() => {
         //     return showAddRecord ? "black" : "red"
         // }) 
 
         let recordDetails = reactive([
-                {
-                    name : "beans time",
-                    time : 279
-                }
+            // {
+            //     name : "beans time",
+            //     time : 279
+            // }
          ])
 
 
@@ -85,7 +89,7 @@ export default {
                     
                     
                     name : newRecord.value,
-                    time : 0
+                    time : props.recordTime
                     
                 })
 
@@ -94,6 +98,10 @@ export default {
                 recordTitle.value = newRecord.value;
                 console.log(newRecord.value);
                 newRecord.value = "";
+
+                if (recordDetails.length > 0) {
+                    noRecord.value = false;
+                }
 
             } else {
                 warningMessage.value = "Enter valid record";
@@ -114,7 +122,8 @@ export default {
             }
         }
 
-        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage };
+
+        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord };
     },
 
     emits: ["setRecord"]
