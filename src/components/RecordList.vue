@@ -2,7 +2,7 @@
   <div>
     <div v-for="(record, index) in recordDetails" :key="index" class="card text-start mt-3">
         <div class="card-header"> 
-            <span @click="a">{{record.name}}</span>
+            <span @click="a(record)">{{record.name}}</span>
             
             <i class="bi bi-three-dots-vertical dropdown-toggle dropdown-icon float-end" data-bs-toggle="dropdown"></i>
     
@@ -32,8 +32,10 @@ export default {
 
         console.log(b);
         // console.log(props.recordTitle);
-        function a() {
-            ctx.emit("a", true)
+
+        function a(record) {
+            ctx.emit("a", record.name)
+            // console.log(record.name);
         }
 
         return { a, b }

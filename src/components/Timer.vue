@@ -112,8 +112,11 @@ export default {
 
     }
 
-    function a(value) {
-      showRecordTitleInTimerContainer.value = value;
+    function a(record) {
+      recordTitleInTimerContainer.value = record;
+      showRecordTitleInTimerContainer.value = true;
+      dangerWarning.value = false;
+      success.value = true;
     }
 
     return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, a }

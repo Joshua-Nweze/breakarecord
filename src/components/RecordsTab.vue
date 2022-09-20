@@ -5,7 +5,7 @@
         <span class="pt-1 records-header">Records</span>
 
         
-        <button type="button" class="btn float-end" :style="{color: addBtnColor}" @click="toggleShowAddRecord">{{ showAddRecord ? "Close" : "Set Record" }}</button>
+        <button type="button" class="btn float-end" :style="{color: addBtnColor, 'border-color': btnBorderColor}" @click="toggleShowAddRecord">{{ showAddRecord ? "Close" : "Set Record" }}</button>
 
 
         <div class="alert alert-warning alert-dismissible fade show" role="alert" v-show="warning">
@@ -49,7 +49,10 @@ export default {
         let showAddRecord = ref(false);
         let noRecord = ref(true);
 
-        let addBtnColor = ref("pink");
+        let btnColor = ref("green")
+
+        let addBtnColor = ref(btnColor);
+        let btnBorderColor  = ref(btnColor)
         let recordTitle = ref("");
         let warning = ref(false);
         let warningMessage = ref("");
@@ -64,8 +67,8 @@ export default {
             }
          ])
 
-        function a(value) {
-            ctx.emit("a", value)
+        function a(record) {
+            ctx.emit("a", record)
         }
 
 
@@ -118,15 +121,15 @@ export default {
         function toggleShowAddRecord() {
             showAddRecord.value =! showAddRecord.value;
             warning.value = false;
-            if (showAddRecord) {
-                addBtnColor.value = "green";
-            } else if (showAddRecord.value = flase) {
-                addBtnColor.value = "pink"
+            if (showAddRecord.value) {
+                btnColor.value = "red";
+            } else if (!showAddRecord.value) {
+                btnColor.value = "green"
             }
         }
 
 
-        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, a };
+        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, a, btnBorderColor, btnColor };
     },
 
     emits: ["setRecord", "a"]
