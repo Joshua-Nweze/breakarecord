@@ -2,9 +2,10 @@
   <div class="container row align-items">
     <div class="col-lg-9 col-sm-12 col-md-12">
 
-      <div class="alert alert-success alert-dismissible fade show" v-show="showRecordTitleInTimerContainer">
+      <div :class="{ 'alert-success': success, 'alert-danger': dangerWarning }"  class="alert alert-dismissible fade show" v-show="showRecordTitleInTimerContainer">
           <strong v-html="recordTitleInTimerContainer"></strong>
-          <button type="button" class="btn-close" @click="showRecordTitleInTimerContainer = false"></button>
+          <strong v-html="recordTitleError" v-if="dangerWarning"></strong>
+          <button type="button" class="btn-close" @click="showRecordTitleInTimerContainer = false; recordTitleInTimerContainer = null"></button>
       </div>
       
       <span class="time" v-html="hourOne"></span><span class="time" v-html="hourTwo"></span><span class="time">:</span>
@@ -19,7 +20,7 @@
       <!-- <input type="text" v-model="newRecord">
       <button @click="b">Lets break it</button> -->
       
-        <RecordsTab @setRecord="setRecord" :recordTime="recordTime"/>
+        <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @a="a"/>
     </div>
 
     <Footer />
@@ -48,21 +49,29 @@ export default {
 
 
     let recordTitleInTimerContainer = ref(null);
+    let recordTitleError = ref(null);
     let showRecordTitleInTimerContainer = ref(false)
 
     let counting = ref(false)
 
     let recordTime = ref(`${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`);
 
+    let success = ref(true);
+    let dangerWarning = ref(false)
+
     function startCount() {
         counting.value =! counting.value;
-        setInterval(() => {
-          if (!recordTitleInTimerContainer) {
-            alert("Enter record first");
-            console.log(2132443);
 
-            return;
+          if (recordTitleInTimerContainer.value == null) {
+            recordTitleError.value = "Enter or select a record before counting!";
+            dangerWarning.value = true;
+            showRecordTitleInTimerContainer.value = true;
+            counting.value = false; 
+            // recordTitleInTimerContainer.value = null
+
+            return false;
           }
+        setInterval(() => {
         secondTwo .value++;
 
         if (secondTwo.value == 10) {
@@ -95,17 +104,19 @@ export default {
       let regex = /^\s*$/;
 
       if (!regex.test(record)){
+        success.value = true;
+        dangerWarning.value = false;
         recordTitleInTimerContainer.value = record;
         showRecordTitleInTimerContainer.value = true;
       }
 
     }
-        
-     
 
+    function a(value) {
+      showRecordTitleInTimerContainer.value = value;
+    }
 
-
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer,  input, setRecord, recordTime, counting, showRecordTitleInTimerContainer }
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, a }
   }
 
   

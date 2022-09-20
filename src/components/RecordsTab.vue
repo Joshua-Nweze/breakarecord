@@ -20,12 +20,11 @@
                 <input v-model="newRecord" @keypress.enter="setRecord" type="text" class="form-control" placeholder="Enter a new record">
                 <button @click="setRecord" type="submit" class="input-group-text">Set</button>
             </div>
-            
     </div>
 
     <div v-if="noRecord">No record to show</div>
 
-    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails"/>
+    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @a="a"/>
 
 </template>
 
@@ -59,11 +58,15 @@ export default {
         // }) 
 
         let recordDetails = reactive([
-            // {
-            //     name : "beans time",
-            //     time : 279
-            // }
+            {
+                name : "beans time",
+                time : 279
+            }
          ])
+
+        function a(value) {
+            ctx.emit("a", value)
+        }
 
 
         function setRecord() {
@@ -123,10 +126,10 @@ export default {
         }
 
 
-        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord };
+        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, a };
     },
 
-    emits: ["setRecord"]
+    emits: ["setRecord", "a"]
 
 }
 </script>
