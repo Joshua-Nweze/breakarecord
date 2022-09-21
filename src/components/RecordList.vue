@@ -2,11 +2,12 @@
   <div>
     <div v-for="(record, index) in recordDetails" :key="index" class="card text-start mt-3">
         <div class="card-header"> 
-            <span @click="a(record)">{{record.name}}</span>
+            <span @click="selectRecord(record)">{{record.name}}</span>
             
             <i class="bi bi-three-dots-vertical dropdown-toggle dropdown-icon float-end" data-bs-toggle="dropdown"></i>
     
             <ul class="dropdown-menu">
+                <li @click="selectRecord(record)"><a class="dropdown-item" href="#"><i class="bi bi-hand-index-thumb"></i>  Select</a></li> 
                 <li><a class="dropdown-item" href="#"><i class="bi bi-pencil-square"></i>  Edit</a></li> 
                 <li><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash3"></i>  Delete</a></li>
             </ul>
@@ -28,20 +29,17 @@ export default {
     props: [ "recordTitle", "recordDetails" ],
 
     setup (props, ctx) {
-        let b = ref(null);
-
-        console.log(b);
         // console.log(props.recordTitle);
 
-        function a(record) {
-            ctx.emit("a", record.name)
+        function selectRecord(record) {
+            ctx.emit("selectRecord", record.name)
             // console.log(record.name);
         }
 
-        return { a, b }
+        return { selectRecord }
     },
 
-    emits: [ "a" ]
+    emits: [ "selectRecord" ]
 }
 </script>
 

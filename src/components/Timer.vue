@@ -5,27 +5,34 @@
       <div :class="{ 'alert-success': success, 'alert-danger': dangerWarning }"  class="alert alert-dismissible fade show" v-show="showRecordTitleInTimerContainer">
           <strong v-html="recordTitleInTimerContainer"></strong>
           <strong v-html="recordTitleError" v-if="dangerWarning"></strong>
-          <button type="button" class="btn-close" @click="showRecordTitleInTimerContainer = false; recordTitleInTimerContainer = null"></button>
+          <button type="button" class="btn-close" @click="closeRecordTitle"></button>
       </div>
       
       <span class="time" v-html="hourOne"></span><span class="time" v-html="hourTwo"></span><span class="time">:</span>
       <span class="time" v-html="minuteOne"></span><span class="time" v-html="minuteTwo"></span><span class="time">:</span>
       <span class="time" v-html="secondOne"></span><span class="time" v-html="secondTwo"></span>
+
+      <div style="z-index:999">
+        {{ recordTime }}
+      </div>
       
 
-      <div><button type="button" class="timerControl" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
+      <div><button type="button" :class="{}" class="timerControl" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
+
+
     </div>
 
     <div class="col-lg-3 col-sm-12 col-md-12 records-container">
       <!-- <input type="text" v-model="newRecord">
       <button @click="b">Lets break it</button> -->
       
-        <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @a="a"/>
+        <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord"/>
     </div>
 
-    <Footer />
-
   </div>
+
+  <Footer />
+
 </template>
 
 <script>
@@ -59,6 +66,11 @@ export default {
     let success = ref(true);
     let dangerWarning = ref(false)
 
+    function closeRecordTitle() {
+      showRecordTitleInTimerContainer.value = false; 
+      recordTitleInTimerContainer.value = null;
+    }
+
     function startCount() {
         counting.value =! counting.value;
 
@@ -71,32 +83,49 @@ export default {
 
             return false;
           }
-        setInterval(() => {
-        secondTwo .value++;
 
-        if (secondTwo.value == 10) {
-          secondTwo.value = 0;
-          secondOne.value++;
-        }
-        if (secondOne.value == 6) {
-          secondOne.value = 0;
-          minuteTwo.value++;
-        }
+          if (counting.value) {
+            let i = setInterval(() => {
 
-        if (minuteTwo.value == 10) {
-          minuteTwo.value = 0;
-          minuteOne.value++;
-        }
-        if (minuteOne.value == 6) {
-          minuteOne.value = 0; 
-          hourTwo.value++;
-        }
+              secondTwo .value++;
 
-        if (hourTwo.value == 10) {
-          hourTwo.value = 0; 
-          hourOne.value++;
-        }
-      }, 1000)
+              if (secondTwo.value == 10) {
+                secondTwo.value = 0;
+                secondOne.value++;
+              }
+              if (secondOne.value == 6) {
+                secondOne.value = 0;
+                minuteTwo.value++;
+              }
+
+              if (minuteTwo.value == 10) {
+                minuteTwo.value = 0;
+                minuteOne.value++;
+              }
+              if (minuteOne.value == 6) {
+                minuteOne.value = 0; 
+                hourTwo.value++;
+              }
+
+              if (hourTwo.value == 10) {
+                hourTwo.value = 0; 
+                hourOne.value++;
+              }
+
+              
+              if (!counting.value) {
+                clearInterval(i);
+                recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
+                console.log(recordTime.value);
+              }
+            }, 1000)
+
+          } 
+          // else if (!counting.value) {
+          //   clearInterval(i);
+          //   console.log('hi');
+          // }
+      
       
     }
 
@@ -112,14 +141,14 @@ export default {
 
     }
 
-    function a(record) {
+    function selectRecord(record) {
       recordTitleInTimerContainer.value = record;
       showRecordTitleInTimerContainer.value = true;
       dangerWarning.value = false;
       success.value = true;
     }
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, a }
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle }
   }
 
   

@@ -24,7 +24,7 @@
 
     <div v-if="noRecord">No record to show</div>
 
-    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @a="a"/>
+    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @selectRecord="selectRecord"/>
 
 </template>
 
@@ -67,8 +67,8 @@ export default {
             }
          ])
 
-        function a(record) {
-            ctx.emit("a", record)
+        function selectRecord(record) {
+            ctx.emit("selectRecord", record)
         }
 
 
@@ -129,10 +129,10 @@ export default {
         }
 
 
-        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, a, btnBorderColor, btnColor };
+        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, selectRecord, btnBorderColor, btnColor };
     },
 
-    emits: ["setRecord", "a"]
+    emits: ["setRecord", "selectRecord"]
 
 }
 </script>
