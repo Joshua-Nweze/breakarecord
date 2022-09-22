@@ -50,10 +50,7 @@ export default {
   }
 }
 
-@media only screen and (min-width: 1024px) {
-  .settings-container{
-    /* margin: auto; */
-  }
+@media only screen and (min-width: 1024px) {  
   .settings{
     margin-left: 20px;
     font-size: 20px;

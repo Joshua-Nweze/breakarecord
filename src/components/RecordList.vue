@@ -1,8 +1,8 @@
 <template>
-  <div>
+  <div class="record-list-container">
     <div v-for="(record, index) in recordDetails" :key="index" class="card text-start mt-3">
         <div class="card-header"> 
-            <span @click="selectRecord(record)">{{record.name}}</span>
+            <span @click="selectRecord(record)" class="select">{{record.name}}</span>
             
             <i class="bi bi-three-dots-vertical dropdown-toggle dropdown-icon float-end" data-bs-toggle="dropdown"></i>
     
@@ -50,5 +50,15 @@ export default {
 
     .dropdown-icon:hover{
         cursor: pointer;
+    }
+
+    .select:hover{
+        cursor: pointer;
+    }
+
+    .record-list-container{
+        height: 380px;
+        overflow-y: scroll;
+        padding-right: 5px;
     }
 </style>

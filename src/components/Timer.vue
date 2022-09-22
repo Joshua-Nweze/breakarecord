@@ -1,6 +1,7 @@
 <template>
-  <div class="container row align-items">
-    <div class="col-lg-9 col-sm-12 col-md-12">
+<div class="container">
+  <div class="row d-flex justify-content-center">
+    <div class="col-lg-8 col-md-7 col-sm-12">
 
       <div :class="{ 'alert-success': success, 'alert-danger': dangerWarning }"  class="alert alert-dismissible fade show" v-show="showRecordTitleInTimerContainer">
           <strong v-html="recordTitleInTimerContainer"></strong>
@@ -19,18 +20,13 @@
 
       <div><button type="button" :class="{}" class="timerControl" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
 
-
     </div>
-
-    <div class="col-lg-3 col-sm-12 col-md-12 records-container">
-      <!-- <input type="text" v-model="newRecord">
-      <button @click="b">Lets break it</button> -->
+    <div class="col-lg-4 col-md-5 col-sm-12 border-start">
       
         <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord"/>
     </div>
-
   </div>
-
+</div>
   <Footer />
 
 </template>
@@ -75,7 +71,7 @@ export default {
         counting.value =! counting.value;
 
           if (recordTitleInTimerContainer.value == null) {
-            recordTitleError.value = "Enter or select a record before counting!";
+            recordTitleError.value = "Enter or click record name before counting!";
             dangerWarning.value = true;
             showRecordTitleInTimerContainer.value = true;
             counting.value = false; 
@@ -87,7 +83,7 @@ export default {
           if (counting.value) {
             let i = setInterval(() => {
 
-              secondTwo .value++;
+              secondTwo.value++;
 
               if (secondTwo.value == 10) {
                 secondTwo.value = 0;
