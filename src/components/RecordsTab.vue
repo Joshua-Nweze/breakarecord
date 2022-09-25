@@ -24,7 +24,7 @@
 
     <div v-if="noRecord">No record to show</div>
 
-    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @selectRecord="selectRecord"/>
+    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @selectRecord="selectRecord" @hideRecordTitle="hideRecordTitle"/>
 
 </template>
 
@@ -39,7 +39,7 @@ import { computed } from '@vue/runtime-core'
 
 export default {
     name: "RecordTab",
-    props: [ "recordTime" ],
+    props: [ "recordTime", "newRecordTime" ],
     components: {
         RecordList
     },
@@ -71,6 +71,9 @@ export default {
             ctx.emit("selectRecord", record)
         }
 
+        function hideRecordTitle() {
+            ctx.emit("hideRecordTitle")
+        }
 
         function setRecord() {
             // e.preventDefault();
@@ -93,10 +96,10 @@ export default {
 
                 const NEW_RECORD = reactive({
                     
-                    
                     name : newRecord.value,
-                    time : props.recordTime
-                    
+                    // time : props.recordTime
+                    time : '00:00:00'
+
                 })
 
                 recordDetails.unshift(NEW_RECORD);
@@ -105,9 +108,13 @@ export default {
                 console.log(newRecord.value);
                 newRecord.value = "";
 
+                console.log(recordDetails);
+
                 if (recordDetails.length > 0) {
                     noRecord.value = false;
                 }
+
+                recordDetails.time = props.recordTime;
 
             } else {
                 warningMessage.value = "Enter valid record";
@@ -116,7 +123,6 @@ export default {
             }
 
         }
-
 
         function toggleShowAddRecord() {
             showAddRecord.value =! showAddRecord.value;
@@ -129,10 +135,10 @@ export default {
         }
 
 
-        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, selectRecord, btnBorderColor, btnColor };
+        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, selectRecord, btnBorderColor, btnColor, hideRecordTitle };
     },
 
-    emits: ["setRecord", "selectRecord"]
+    emits: ["setRecord", "selectRecord", "hideRecordTitle"]
 
 }
 </script>

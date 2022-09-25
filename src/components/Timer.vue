@@ -9,13 +9,25 @@
           <button type="button" class="btn-close" @click="closeRecordTitle"></button>
       </div>
       
-      <span class="time" v-html="hourOne"></span><span class="time" v-html="hourTwo"></span><span class="time">:</span>
-      <span class="time" v-html="minuteOne"></span><span class="time" v-html="minuteTwo"></span><span class="time">:</span>
-      <span class="time" v-html="secondOne"></span><span class="time" v-html="secondTwo"></span>
+      <span>
+        <span class="time" v-html="hourOne"></span><span class="time" v-html="hourTwo"></span><span class="time">:</span>
+        <span class="time" v-html="minuteOne"></span><span class="time" v-html="minuteTwo"></span><span class="time">:</span>
+        <span class="time" v-html="secondOne"></span><span class="time" v-html="secondTwo"></span>
+      </span>
 
       <div style="z-index:999">
         {{ recordTime }}
+        <button @click="updateRecordTime">ADD</button>
       </div>
+
+      <!-- Button trigger modal -->
+<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+  Launch demo modal :class="a ? 'show' : ''"
+</button> -->
+
+
+
+
       
 
       <div><button type="button" :class="{}" class="timerControl" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
@@ -23,7 +35,7 @@
     </div>
     <div class="col-lg-4 col-md-5 col-sm-12 border-start">
       
-        <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord"/>
+        <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle"/>
     </div>
   </div>
 </div>
@@ -58,12 +70,21 @@ export default {
     let counting = ref(false)
 
     let recordTime = ref(`${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`);
+    let newRecordTime = ref(null)
 
     let success = ref(true);
-    let dangerWarning = ref(false)
+    let dangerWarning = ref(false);
+
+    let a = ref(false);
 
     function closeRecordTitle() {
       showRecordTitleInTimerContainer.value = false; 
+      recordTitleInTimerContainer.value = null;
+    }
+
+    function hideRecordTitle() {
+      console.log('aa');
+      showRecordTitleInTimerContainer.value = false;
       recordTitleInTimerContainer.value = null;
     }
 
@@ -112,7 +133,17 @@ export default {
               if (!counting.value) {
                 clearInterval(i);
                 recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
-                console.log(recordTime.value);
+                // console.log(recordTime.value);
+                a.value = true;
+                console.log(a.value);
+                // function updateRecordTime () {
+                //    newRecordTime.value = recordTime.value
+
+                //    console.log(newRecordTime.value);
+
+                // }
+
+                // updateRecordTime();
               }
             }, 1000)
 
@@ -144,7 +175,7 @@ export default {
       success.value = true;
     }
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle }
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, a, newRecordTime, hideRecordTitle}
   }
 
   
@@ -190,4 +221,5 @@ export default {
       color: black;
       border: #42b983;
     } */
+
 </style>

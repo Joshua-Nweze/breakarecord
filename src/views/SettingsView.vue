@@ -64,7 +64,7 @@ export default {
 }
 
 .form-check-input:focus{
-  border-color: none;
+  border-color: #bfbfbf;
   box-shadow: none;
   outline: 0;
   color: none;
