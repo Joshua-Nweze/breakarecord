@@ -24,7 +24,7 @@
 
     <div v-if="noRecord">No record to show</div>
 
-    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @selectRecord="selectRecord" @hideRecordTitle="hideRecordTitle"/>
+    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @selectRecord="selectRecord" @hideRecordTitle="hideRecordTitle" @deleteRecord="deleteRecord"/>
 
 </template>
 
@@ -49,7 +49,7 @@ export default {
         let showAddRecord = ref(false);
         let noRecord = ref(true);
 
-        let btnColor = ref("green")
+        let btnColor = ref("#42b983")
 
         let addBtnColor = ref(btnColor);
         let btnBorderColor  = ref(btnColor)
@@ -69,6 +69,7 @@ export default {
 
         function selectRecord(record) {
             ctx.emit("selectRecord", record)
+            console.log(record);
         }
 
         function hideRecordTitle() {
@@ -124,18 +125,29 @@ export default {
 
         }
 
+        function deleteRecord(index) {
+            // alert(`Are you sure you want to delete "${record.name}" from records`);
+            recordDetails.splice(index, 1);
+
+            if (recordDetails.length == 0) {
+                    noRecord.value = true;
+                }
+        }
+
+
         function toggleShowAddRecord() {
             showAddRecord.value =! showAddRecord.value;
             warning.value = false;
             if (showAddRecord.value) {
                 btnColor.value = "red";
             } else if (!showAddRecord.value) {
-                btnColor.value = "green"
+                btnColor.value = "#42b983"
             }
         }
 
 
-        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, selectRecord, btnBorderColor, btnColor, hideRecordTitle };
+
+        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, selectRecord, btnBorderColor, btnColor, hideRecordTitle, deleteRecord };
     },
 
     emits: ["setRecord", "selectRecord", "hideRecordTitle"]

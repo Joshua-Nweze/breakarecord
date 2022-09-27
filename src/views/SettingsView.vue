@@ -1,57 +1,85 @@
 <template>
-  <div class="container-fluid text-start row d-flex justify-content-center">
-    <div class="settings-container col-lg-6 col-md-10 col-sm-12">
-      <header>
-        <h1>Settings</h1>
-      </header>
+  <div class="container ">
+    <div class="text-start row d-flex justify-content-center settings-container">
+      <div class="settings-container col-lg-6 col-md-10 col-sm-12">
+            <header>
+              <h1>Settings</h1>
+            </header>
 
-      <div class="settings">
-        
-        <!-- <div class="border-bottom mb-2"> Dark mode </div>
-        <div class="border-bottom mb-2"> </div> -->
+            <div class="settings-menu">
+              
+              <!-- <div class="border-bottom mb-2"> Dark mode </div>
+              <div class="border-bottom mb-2"> </div> -->
 
-        <div class="form-check form-check-reverse form-switch mb-3">
-          <label class="form-check-label float-start" for="flexSwitchCheckDefault">Dark mode</label>
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        </div>
-        <hr>
+              <div class="form-check form-check-reverse form-switch mb-3">
+                <label class="form-check-label float-start" for="flexSwitchCheckDefault">Dark mode</label>
+                <input @change="$emit('toggleMode')" :checked="(mode === 'dark') ? true : false" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+              </div>
+              <hr>
 
-        <div class="form-check form-check-reverse form-switch mb-3">
-          <label class="form-check-label float-start" for="flexSwitchCheckDefault">New record animation</label>
-          <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
-        </div>
-        <hr>
-
-      </div>
+              <div class="form-check form-check-reverse form-switch mb-3">
+                <label class="form-check-label float-start" for="flexSwitchCheckDefault">New record animation</label>
+                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+              </div>
+              <hr>
+<!-- Show animation when a record is broken, when na new record is set. -->
+            </div>
+          
+       </div>
     </div>
+    
+
 
   </div>
+      <Footer/>
+  
     <!-- <div class="sticky-bottom">version 1.0.0</div> -->
 </template>
 
 <script>
+import { ref } from '@vue/reactivity'
+import Footer from '@/components/Footer.vue'
 export default {
     name: "Settings",
+    components: { Footer },
+    props: ["mode"],
+
+    setup() {
+      
+    }
+
 
 }
 </script>
 
 <style>
+.settings-container{
+  height: auto;
+}
 @media only screen and (max-width: 480px) {
-  .settings{
+  footer{
+    margin-top: 220px;  
+  }
+  .settings-menu{
     margin-left: 10px;
     padding-top: 12px;
   }
 }
 
 @media only screen and (min-width: 481px) and (max-width: 1023px) {
-  .settings{
+  footer{
+    margin-top: 190px;
+  }
+  .settings-menu{
     font-size: 18px;
   }
 }
 
 @media only screen and (min-width: 1024px) {  
-  .settings{
+  footer{
+    margin-top: 350px;
+  }
+  .settings-menu{
     margin-left: 20px;
     font-size: 20px;
   }

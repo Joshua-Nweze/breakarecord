@@ -1,5 +1,5 @@
 <template>
-    <footer class="mt-5">
+    <footer>
         &copy; {{ new Date().getFullYear() }} Breakarecord <br> Designed and built by <a href="">Joshua Nweze</a>
     </footer>
 </template>

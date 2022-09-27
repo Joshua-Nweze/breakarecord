@@ -1,10 +1,35 @@
 <template>
+<div :class="mode">
   <nav>
-    <router-link to="/"><i class="bi bi-house-door-fill nav-icon"></i></router-link>
+    <router-link to="/"><i class="bi bi-house-door-fill nav-icon"></i></router-link>  
     <router-link to="/settings"><i class="bi bi-gear-fill nav-icon"></i></router-link>
   </nav>
-  <router-view/>
+  <router-view :mode="mode" @toggleMode="toggleMode"/>
+</div>
+  
 </template>
+
+<script>
+import { ref } from '@vue/reactivity'
+export default {
+
+  setup() {
+    let mode = ref("dark")
+
+    function toggleMode() {
+      if (mode.value === "light") {
+        mode.value = "dark"
+      } else {
+        mode.value = "light"
+      }
+    }
+
+    return { mode, toggleMode }
+  },
+
+  // emits: ["toggleMode"]
+}
+</script>
 
 <style>
 #app {
@@ -13,6 +38,18 @@
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #6d7276;
+  /* height: 100%; */
+  /* min-height: 100%; */
+  /* transition: background 0.3s ease-in-out; */
+}
+
+.light{
+}
+
+.dark{
+  background-color: #202124;
+  height: 100%;
+  /* min-height: 100%; */
 }
 
 nav {

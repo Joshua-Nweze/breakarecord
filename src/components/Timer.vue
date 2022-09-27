@@ -1,45 +1,45 @@
 <template>
-<div class="container">
-  <div class="row d-flex justify-content-center">
-    <div class="col-lg-8 col-md-7 col-sm-12">
+  <div class="container">
+    <div class="row d-flex justify-content-center">
+      <div class="col-lg-8 col-md-7 col-sm-12">
 
-      <div :class="{ 'alert-success': success, 'alert-danger': dangerWarning }"  class="alert alert-dismissible fade show" v-show="showRecordTitleInTimerContainer">
-          <strong v-html="recordTitleInTimerContainer"></strong>
-          <strong v-html="recordTitleError" v-if="dangerWarning"></strong>
-          <button type="button" class="btn-close" @click="closeRecordTitle"></button>
+        <div :class="{ 'alert-success': success, 'alert-danger': dangerWarning }"  class="alert alert-dismissible fade show" v-show="showRecordTitleInTimerContainer">
+            <strong v-html="recordTitleInTimerContainer"></strong>
+            <strong v-html="recordTitleError" v-if="dangerWarning"></strong>
+            <button type="button" class="btn-close" @click="closeRecordTitle"></button>
+        </div>
+        
+        <span>
+          <span class="time" v-html="hourOne"></span><span class="time" v-html="hourTwo"></span><span class="time">:</span>
+          <span class="time" v-html="minuteOne"></span><span class="time" v-html="minuteTwo"></span><span class="time">:</span>
+          <span class="time" v-html="secondOne"></span><span class="time" v-html="secondTwo"></span>
+        </span>
+
+        <div style="z-index:999">
+          {{ recordTime }}
+          <button @click="updateRecordTime">ADD</button>
+        </div>
+
+        <!-- Button trigger modal -->
+  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Launch demo modal :class="a ? 'show' : ''"
+  </button> -->
+
+
+
+
+        
+
+        <div><button type="button" :class="{}" class="timerControl" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
+
       </div>
-      
-      <span>
-        <span class="time" v-html="hourOne"></span><span class="time" v-html="hourTwo"></span><span class="time">:</span>
-        <span class="time" v-html="minuteOne"></span><span class="time" v-html="minuteTwo"></span><span class="time">:</span>
-        <span class="time" v-html="secondOne"></span><span class="time" v-html="secondTwo"></span>
-      </span>
-
-      <div style="z-index:999">
-        {{ recordTime }}
-        <button @click="updateRecordTime">ADD</button>
+      <div class="col-lg-4 col-md-5 col-sm-12 border-start">
+        
+          <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle"/>
       </div>
-
-      <!-- Button trigger modal -->
-<!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-  Launch demo modal :class="a ? 'show' : ''"
-</button> -->
-
-
-
-
-      
-
-      <div><button type="button" :class="{}" class="timerControl" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
-
-    </div>
-    <div class="col-lg-4 col-md-5 col-sm-12 border-start">
-      
-        <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle"/>
     </div>
   </div>
-</div>
-  <Footer />
+  <Footer/>
 
 </template>
 
@@ -75,15 +75,18 @@ export default {
     let success = ref(true);
     let dangerWarning = ref(false);
 
-    let a = ref(false);
-
     function closeRecordTitle() {
-      showRecordTitleInTimerContainer.value = false; 
+      showRecordTitleInTimerContainer.value = false;
       recordTitleInTimerContainer.value = null;
+      hourOne.value = 0;
+      hourTwo.value = 0;
+      minuteOne.value = 0;
+      minuteTwo.value = 0;
+      secondOne.value = 0;
+      secondTwo.value = 0;
     }
 
     function hideRecordTitle() {
-      console.log('aa');
       showRecordTitleInTimerContainer.value = false;
       recordTitleInTimerContainer.value = null;
     }
@@ -92,7 +95,7 @@ export default {
         counting.value =! counting.value;
 
           if (recordTitleInTimerContainer.value == null) {
-            recordTitleError.value = "Enter or click record name before counting!";
+            recordTitleError.value = "Enter or click/select record before counting!";
             dangerWarning.value = true;
             showRecordTitleInTimerContainer.value = true;
             counting.value = false; 
@@ -134,12 +137,10 @@ export default {
                 clearInterval(i);
                 recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
                 // console.log(recordTime.value);
-                a.value = true;
-                console.log(a.value);
                 // function updateRecordTime () {
-                //    newRecordTime.value = recordTime.value
+                //   //  newRecordTime.value = recordTime.value
 
-                //    console.log(newRecordTime.value);
+                //    console.log('from update record');
 
                 // }
 
@@ -156,6 +157,17 @@ export default {
       
     }
 
+    
+    function updateRecordTime () {
+        newRecordTime.value = recordTime.value
+
+        // console.log('from update record', newRecordTime.value);
+
+        return newRecordTime.value
+
+    }
+
+
     function setRecord(record) {
       let regex = /^\s*$/;
 
@@ -169,13 +181,14 @@ export default {
     }
 
     function selectRecord(record) {
-      recordTitleInTimerContainer.value = record;
+      recordTitleInTimerContainer.value = record.name;
       showRecordTitleInTimerContainer.value = true;
       dangerWarning.value = false;
       success.value = true;
+      // console.log(record);
     }
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, a, newRecordTime, hideRecordTitle}
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime}
   }
 
   
@@ -184,9 +197,6 @@ export default {
 
 <style scoped>
 
-    /* *{
-      color: #6d7276;
-    } */
 
     @media only screen and (max-width: 480px) {
      .time{
@@ -195,12 +205,18 @@ export default {
     }
 
     @media only screen and (min-width: 481px) and (max-width: 1023px) {
+        footer{
+          margin-top: 40px;
+        }
        .time{
           font-size: 100px;
        }
     }
 
     @media only screen and (min-width: 1024px) {
+        footer{
+          margin-top: 60px;
+        }
         .time{
           font-size: 100px;
         }
