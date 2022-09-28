@@ -1,15 +1,15 @@
 <template>
   <div class="record-list-container">
-    <div v-for="(record, index) in recordDetails" :key="index" class="card text-start mt-3">
+    <div v-for="(record, index) in recordDetails" :key="index" class="card text-start mt-3" :class="(mode === 'dark') ? 'dark-theme' : 'light-theme'">
         <div class="card-header"> 
             <span @click="selectRecord(record)" class="select">{{record.name}}</span>
             
             <i class="bi bi-three-dots-vertical dropdown-toggle dropdown-icon float-end" data-bs-toggle="dropdown"></i>
     
-            <ul class="dropdown-menu">
-                <li @click="selectRecord(record)"><a class="dropdown-item" href="#"><i class="bi bi-hand-index-thumb"></i>  Select</a></li> 
-                <li @click="editRecord"><a class="dropdown-item" href="#"><i class="bi bi-pencil-square"></i>  Edit</a></li> 
-                <li @click="deleteRecord(index)"><a class="dropdown-item text-danger" href="#"><i class="bi bi-trash3"></i>  Delete</a></li>
+            <ul class="dropdown-menu" :class="(mode === 'dark') ? 'dark-theme' : 'light-theme'">
+                <li @click="selectRecord(record)"><span :class="(mode === 'dark') ? 'dark-theme' : 'light-theme'"  class="dropdown-item" href="#"><i class="bi bi-hand-index-thumb"></i>  Select</span></li> 
+                <li @click="editRecord"><span :class="(mode === 'dark') ? 'dark-theme' : 'light-theme'"  class="dropdown-item" href="#"><i class="bi bi-pencil-square"></i>  Edit</span></li> 
+                <li @click="deleteRecord(index)"><span class="dropdown-item text-danger" href="#"><i class="bi bi-trash3"></i>  Delete</span></li>
             </ul>
             
         </div>
@@ -26,7 +26,7 @@
 import { ref } from '@vue/reactivity';
 export default {
     name: "RecordList",
-    props: [ "recordTitle", "recordDetails" ],
+    props: [ "recordTitle", "recordDetails", "mode" ],
 
     setup (props, ctx) {
         // console.log(props.recordTitle);
@@ -70,5 +70,10 @@ export default {
         overflow-y: scroll;
         padding-right: 5px;
         /* background-color: inherit; */
+    }
+
+    .dark-theme{
+        background-color: #36383d;
+        color: #899197;
     }
 </style>

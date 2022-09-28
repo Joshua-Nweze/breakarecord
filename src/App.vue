@@ -14,7 +14,7 @@ import { ref } from '@vue/reactivity'
 export default {
 
   setup() {
-    let mode = ref("dark")
+    let mode = ref("light");
 
     function toggleMode() {
       if (mode.value === "light") {
@@ -27,7 +27,7 @@ export default {
     return { mode, toggleMode }
   },
 
-  // emits: ["toggleMode"]
+  emits: ["toggleMode"]
 }
 </script>
 
@@ -44,12 +44,15 @@ export default {
 }
 
 .light{
+  transition: ease-in 1s;
 }
 
 .dark{
   background-color: #202124;
   height: 100%;
   /* min-height: 100%; */
+  transition: ease-in 1s;
+  /* color: #6d7276; */
 }
 
 nav {

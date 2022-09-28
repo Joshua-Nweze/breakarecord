@@ -15,31 +15,53 @@
           <span class="time" v-html="secondOne"></span><span class="time" v-html="secondTwo"></span>
         </span>
 
-        <div style="z-index:999">
+        <div style="z-index:999" v-if="a">
           {{ recordTime }}
           <button @click="updateRecordTime">ADD</button>
         </div>
 
-        <!-- Button trigger modal -->
-  <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Launch demo modal :class="a ? 'show' : ''"
-  </button> -->
-
-
-
-
-        
-
-        <div><button type="button" :class="{}" class="timerControl" @click="startCount"> {{ counting ? "Stop and Save" : "Start" }} </button></div>
+        <div><button
+          type="button"
+          class="timerControl" 
+          style="color: ghostwhite"
+          @click="startCount"  
+          :data-bs-toggle="(counting === true) ? 'modal' : 'false'" 
+          :data-bs-target="(counting === true) ? '#exampleModal' : 'false'"> 
+          {{ counting ? "Stop" : "Start" }} 
+          </button></div>
 
       </div>
       <div class="col-lg-4 col-md-5 col-sm-12 border-start">
         
-          <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle"/>
+          <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle" :mode="mode"/>
       </div>
     </div>
   </div>
   <Footer/>
+
+
+  <!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" :class="(mode === 'dark') ? 'dark-theme' : 'light-theme' ">
+      <div class="modal-header" style="border-color: #42b983">
+        <h5 class="modal-title" id="exampleModalLabel" style="color: #42b983">New record time</h5>
+        <button type="button" class="btn-close" style="color: red" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <span class="fs-5" v-html="a"></span> <br>
+        <span class="fs-5">{{ recordTime }}</span>
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn" style="background: #42b983; color: ghostwhite">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
 
 </template>
 
@@ -51,6 +73,7 @@ import { computed } from '@vue/runtime-core';
 export default {
   name: "Timer",
   components: { RecordsTab, Footer },
+  props: ["mode"],
 
   setup() {
     let hourOne = ref(0);
@@ -62,12 +85,11 @@ export default {
 
     let input = ref(null);
 
-
     let recordTitleInTimerContainer = ref(null);
     let recordTitleError = ref(null);
     let showRecordTitleInTimerContainer = ref(false)
 
-    let counting = ref(false)
+    let counting = ref()
 
     let recordTime = ref(`${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`);
     let newRecordTime = ref(null)
@@ -90,6 +112,8 @@ export default {
       showRecordTitleInTimerContainer.value = false;
       recordTitleInTimerContainer.value = null;
     }
+
+    let a = ref()
 
     function startCount() {
         counting.value =! counting.value;
@@ -136,6 +160,7 @@ export default {
               if (!counting.value) {
                 clearInterval(i);
                 recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
+                // a.value = true;
                 // console.log(recordTime.value);
                 // function updateRecordTime () {
                 //   //  newRecordTime.value = recordTime.value
@@ -181,14 +206,19 @@ export default {
     }
 
     function selectRecord(record) {
+      a.value = record.name
       recordTitleInTimerContainer.value = record.name;
       showRecordTitleInTimerContainer.value = true;
       dangerWarning.value = false;
       success.value = true;
+
+      // setTimeout(() => {
+      //   console.log(record.name + " selected");
+      // }, 2000)
       // console.log(record);
     }
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime}
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime, a}
   }
 
   
@@ -199,6 +229,9 @@ export default {
 
 
     @media only screen and (max-width: 480px) {
+      footer{
+        margin-top: 15px;
+      }
      .time{
       font-size: 50px;
      }
@@ -230,6 +263,11 @@ export default {
       border-radius: 2px;
       border: none;
       padding: 5px;
+    }
+
+    .dark-theme{
+        background-color: #36383d;
+        color: #b7bdc0;
     }
 /* 
     button:hover{

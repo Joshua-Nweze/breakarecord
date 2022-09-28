@@ -10,7 +10,9 @@ export default {
 
   setup() {
 
-  }
+  },
+
+  emits: ["toggleMode"]
 
 }
 </script>

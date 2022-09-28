@@ -24,7 +24,7 @@
 
     <div v-if="noRecord">No record to show</div>
 
-    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @selectRecord="selectRecord" @hideRecordTitle="hideRecordTitle" @deleteRecord="deleteRecord"/>
+    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @selectRecord="selectRecord" @hideRecordTitle="hideRecordTitle" @deleteRecord="deleteRecord" :mode="mode"/>
 
 </template>
 
@@ -39,7 +39,7 @@ import { computed } from '@vue/runtime-core'
 
 export default {
     name: "RecordTab",
-    props: [ "recordTime", "newRecordTime" ],
+    props: [ "recordTime", "newRecordTime", "mode" ],
     components: {
         RecordList
     },
@@ -69,7 +69,7 @@ export default {
 
         function selectRecord(record) {
             ctx.emit("selectRecord", record)
-            console.log(record);
+            // console.log(record);
         }
 
         function hideRecordTitle() {
@@ -160,6 +160,10 @@ export default {
 
 
 <style scoped>
+    *{
+        transition: ease-out 0.5s ;
+    }
+    
     .form-control:focus{
         border-color: #42b983;
         box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px #42b983;
