@@ -35,11 +35,11 @@
 <script>
 import { reactive, ref } from '@vue/reactivity'
 import RecordList from '@/components/RecordList.vue'
-import { computed } from '@vue/runtime-core'
+import { computed, onUpdated } from '@vue/runtime-core'
 
 export default {
     name: "RecordTab",
-    props: [ "recordTime", "newRecordTime", "mode" ],
+    props: [ "recordTime", "newRecordTime", "mode", "b", "recordTitleInTimerContainer"],
     components: {
         RecordList
     },
@@ -145,7 +145,33 @@ export default {
             }
         }
 
+    
+        onUpdated(() => {
+            if(props.b){
+                //  Method one of updating record time
 
+                // for (const j in recordDetails) {
+                //     if (Object.hasOwn(recordDetails, j)) {
+                //         const record = recordDetails[j];
+                //         // console.log(record);
+                //         if (props.recordTitleInTimerContainer == record.name) {
+                //             console.log(record);
+                //             record.time = props.newRecordTime;
+                //         }
+                //     }
+                // }
+
+                
+                //  Method two of updating record time, this is easier
+
+                for (const record of recordDetails) {
+                    if (props.recordTitleInTimerContainer == record.name) {
+                            record.time = props.newRecordTime;
+                        }
+                }
+                
+            }
+        })
 
         return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, selectRecord, btnBorderColor, btnColor, hideRecordTitle, deleteRecord };
     },

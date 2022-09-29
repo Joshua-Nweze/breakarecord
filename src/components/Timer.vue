@@ -15,50 +15,45 @@
           <span class="time" v-html="secondOne"></span><span class="time" v-html="secondTwo"></span>
         </span>
 
-        <div style="z-index:999" v-if="a">
-          {{ recordTime }}
-          <button @click="updateRecordTime">ADD</button>
-        </div>
-
         <div><button
           type="button"
           class="timerControl" 
           style="color: ghostwhite"
-          @click="startCount"  
-          :data-bs-toggle="(counting === true) ? 'modal' : 'false'" 
-          :data-bs-target="(counting === true) ? '#exampleModal' : 'false'"> 
+          @click="startCount"
+          :data-bs-toggle="(counting === true) ? 'modal' : ''" 
+          :data-bs-target="(counting === true) ? '#recordTimeModal' : ''"> 
           {{ counting ? "Stop" : "Start" }} 
           </button></div>
 
       </div>
       <div class="col-lg-4 col-md-5 col-sm-12 border-start">
         
-          <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle" :mode="mode"/>
+          <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle" :mode="mode" :b="b" :recordTitleInTimerContainer="recordTitleInTimerContainer"/>
       </div>
     </div>
   </div>
   <Footer/>
 
 
-  <!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content" :class="(mode === 'dark') ? 'dark-theme' : 'light-theme' ">
-      <div class="modal-header" style="border-color: #42b983">
-        <h5 class="modal-title" id="exampleModalLabel" style="color: #42b983">New record time</h5>
-        <button type="button" class="btn-close" style="color: red" data-bs-dismiss="modal" aria-label="Close"></button>
-      </div>
-      <div class="modal-body">
-        <span class="fs-5" v-html="a"></span> <br>
-        <span class="fs-5">{{ recordTime }}</span>
-      </div>
-      <div class="modal-footer border-0">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn" style="background: #42b983; color: ghostwhite">Save changes</button>
+  <!--New record modal -->
+  <div class="modal fade" id="recordTimeModal" tabindex="-1" aria-labelledby="recordTimeModalLabel" aria-hidden="true" data-bs-backdrop="static" data-bs-keyboard="false">
+    <div class="modal-dialog">
+      <div class="modal-content" :class="(mode === 'dark') ? 'dark-theme' : 'light-theme' ">
+        <div class="modal-header" style="border-color: #42b983">
+          <h5 class="modal-title" id="exampleModalLabel" style="color: #42b983">New record time</h5>
+          <button type="button" class="btn-close" style="color: red" data-bs-dismiss="modal" aria-label="Close" @click="recordTimeModalClosed"></button>
+        </div>
+        <div class="modal-body">
+          <span class="fs-5" v-html="a"></span> <br>
+          <span class="fs-5">{{ recordTime }}</span>
+        </div>
+        <div class="modal-footer border-0">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="recordTimeModalClosed">Cancel</button>
+          <button type="button" class="btn" style="background: #42b983; color: ghostwhite" @click="updateRecordTime">Save changes</button>
+        </div>
       </div>
     </div>
   </div>
-</div>
 
 
 
@@ -160,46 +155,34 @@ export default {
               if (!counting.value) {
                 clearInterval(i);
                 recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
-                // a.value = true;
-                // console.log(recordTime.value);
-                // function updateRecordTime () {
-                //   //  newRecordTime.value = recordTime.value
-
-                //    console.log('from update record');
-
-                // }
-
-                // updateRecordTime();
               }
             }, 1000)
 
-          } 
-          // else if (!counting.value) {
-          //   clearInterval(i);
-          //   console.log('hi');
-          // }
-      
+          }
       
     }
 
-    
+    let b = ref(null)
+    console.log(b.value);
     function updateRecordTime () {
         newRecordTime.value = recordTime.value
+        b.value = true;
 
-        // console.log('from update record', newRecordTime.value);
+        console.log('from update record', recordTitleInTimerContainer.value, recordTime.value);
 
-        return newRecordTime.value
 
     }
 
 
-    function setRecord(record) {
+    function setRecord(recordName) {
       let regex = /^\s*$/;
 
-      if (!regex.test(record)){
+      if (!regex.test(recordName)){
+        a.value = recordName;
+        console.log(a.value);
         success.value = true;
         dangerWarning.value = false;
-        recordTitleInTimerContainer.value = record;
+        recordTitleInTimerContainer.value = recordName;
         showRecordTitleInTimerContainer.value = true;
       }
 
@@ -211,14 +194,21 @@ export default {
       showRecordTitleInTimerContainer.value = true;
       dangerWarning.value = false;
       success.value = true;
-
-      // setTimeout(() => {
-      //   console.log(record.name + " selected");
-      // }, 2000)
-      // console.log(record);
     }
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime, a}
+    function recordTimeModalClosed () {
+       hourOne.value = 0;
+      hourTwo.value = 0;
+      minuteOne.value = 0;
+      minuteTwo.value = 0;
+      secondOne.value = 0;
+      secondTwo.value = 0;
+      recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
+
+      console.log(recordTime.value);
+    }
+
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime, a, recordTimeModalClosed, b}
   }
 
   

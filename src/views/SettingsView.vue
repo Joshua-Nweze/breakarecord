@@ -28,12 +28,8 @@
        </div>
     </div>
     
-
-
   </div>
       <Footer/>
-  
-    <!-- <div class="sticky-bottom">version 1.0.0</div> -->
 </template>
 
 <script>
@@ -58,7 +54,7 @@ export default {
 }
 @media only screen and (max-width: 480px) {
   footer{
-    margin-top: 220px;  
+    margin-top: 270px;  
   }
   .settings-menu{
     margin-left: 10px;
@@ -68,7 +64,7 @@ export default {
 
 @media only screen and (min-width: 481px) and (max-width: 1023px) {
   footer{
-    margin-top: 190px;
+    margin-top: 230px;
   }
   .settings-menu{
     font-size: 18px;
