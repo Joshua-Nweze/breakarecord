@@ -28,7 +28,7 @@
       </div>
       <div class="col-lg-4 col-md-5 col-sm-12 border-start">
         
-          <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle" :mode="mode" :b="b" :recordTitleInTimerContainer="recordTitleInTimerContainer"/>
+          <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle" :mode="mode" :allowUpdateRecordTime="allowUpdateRecordTime" :recordTitleInTimerContainer="recordTitleInTimerContainer"/>
       </div>
     </div>
   </div>
@@ -44,7 +44,7 @@
           <button type="button" class="btn-close" style="color: red" data-bs-dismiss="modal" aria-label="Close" @click="recordTimeModalClosed"></button>
         </div>
         <div class="modal-body">
-          <span class="fs-5" v-html="a"></span> <br>
+          <span class="fs-5" v-html="record_name"></span> <br>
           <span class="fs-5">{{ recordTime }}</span>
         </div>
         <div class="modal-footer border-0">
@@ -78,8 +78,6 @@ export default {
     let secondOne = ref(0);
     let secondTwo  = ref(0);
 
-    let input = ref(null);
-
     let recordTitleInTimerContainer = ref(null);
     let recordTitleError = ref(null);
     let showRecordTitleInTimerContainer = ref(false)
@@ -92,23 +90,9 @@ export default {
     let success = ref(true);
     let dangerWarning = ref(false);
 
-    function closeRecordTitle() {
-      showRecordTitleInTimerContainer.value = false;
-      recordTitleInTimerContainer.value = null;
-      hourOne.value = 0;
-      hourTwo.value = 0;
-      minuteOne.value = 0;
-      minuteTwo.value = 0;
-      secondOne.value = 0;
-      secondTwo.value = 0;
-    }
+    let allowUpdateRecordTime = ref(null);
 
-    function hideRecordTitle() {
-      showRecordTitleInTimerContainer.value = false;
-      recordTitleInTimerContainer.value = null;
-    }
-
-    let a = ref()
+    let record_name = ref();
 
     function startCount() {
         counting.value =! counting.value;
@@ -162,24 +146,22 @@ export default {
       
     }
 
-    let b = ref(null)
-    console.log(b.value);
-    function updateRecordTime () {
-        newRecordTime.value = recordTime.value
-        b.value = true;
+    function resetTimer() {
+      hourOne.value = 0;
+      hourTwo.value = 0;
+      minuteOne.value = 0;
+      minuteTwo.value = 0;
+      secondOne.value = 0;
+      secondTwo.value = 0;
 
-        console.log('from update record', recordTitleInTimerContainer.value, recordTime.value);
-
-
+      recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
     }
-
 
     function setRecord(recordName) {
       let regex = /^\s*$/;
 
       if (!regex.test(recordName)){
-        a.value = recordName;
-        console.log(a.value);
+        record_name.value = recordName;
         success.value = true;
         dangerWarning.value = false;
         recordTitleInTimerContainer.value = recordName;
@@ -188,8 +170,21 @@ export default {
 
     }
 
+    
+    function closeRecordTitle() {
+      showRecordTitleInTimerContainer.value = false;
+      recordTitleInTimerContainer.value = null;
+      
+      resetTimer()
+    }
+
+    function hideRecordTitle() {
+      showRecordTitleInTimerContainer.value = false;
+      recordTitleInTimerContainer.value = null;
+    }
+
     function selectRecord(record) {
-      a.value = record.name
+      record_name.value = record.name
       recordTitleInTimerContainer.value = record.name;
       showRecordTitleInTimerContainer.value = true;
       dangerWarning.value = false;
@@ -197,18 +192,21 @@ export default {
     }
 
     function recordTimeModalClosed () {
-       hourOne.value = 0;
-      hourTwo.value = 0;
-      minuteOne.value = 0;
-      minuteTwo.value = 0;
-      secondOne.value = 0;
-      secondTwo.value = 0;
-      recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
+      resetTimer()
 
       console.log(recordTime.value);
     }
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, input, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime, a, recordTimeModalClosed, b}
+    
+    function updateRecordTime () {
+        newRecordTime.value = recordTime.value
+        allowUpdateRecordTime.value = true;
+
+        console.log('from update record', recordTitleInTimerContainer.value, recordTime.value);
+
+    }
+
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime, record_name, recordTimeModalClosed, allowUpdateRecordTime, resetTimer}
   }
 
   

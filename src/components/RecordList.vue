@@ -8,7 +8,9 @@
     
             <ul class="dropdown-menu" :class="(mode === 'dark') ? 'dark-theme' : 'light-theme'">
                 <li @click="selectRecord(record)"><span :class="(mode === 'dark') ? 'dark-theme' : 'light-theme'"  class="dropdown-item" href="#"><i class="bi bi-hand-index-thumb"></i>  Select</span></li> 
-                <li @click="editRecord"><span :class="(mode === 'dark') ? 'dark-theme' : 'light-theme'"  class="dropdown-item" href="#"><i class="bi bi-pencil-square"></i>  Edit</span></li> 
+
+                <li @click="editRecord" data-bs-toggle="modal" data-bs-target="#editRecordModal"><span :class="(mode === 'dark') ? 'dark-theme' : 'light-theme'"  class="dropdown-item" href="#"><i class="bi bi-pencil-square"></i>  Edit</span></li> 
+
                 <li @click="deleteRecord(index)"><span class="dropdown-item text-danger" href="#"><i class="bi bi-trash3"></i>  Delete</span></li>
             </ul>
             
@@ -18,8 +20,25 @@
         </div>
     </div>
 
-    
   </div>
+  <!-- Edit record name modal -->
+<div class="modal fade" id="editRecordModal" tabindex="-1" aria-labelledby="editRecordModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content" :class="(mode === 'dark') ? 'dark-theme' : 'light-theme' ">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" style="color: #42b983">Edit</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <input class="form-control" type="text" placeholder="Enter new name" aria-label="default input example">
+      </div>
+      <div class="modal-footer border-0">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn" style="background: #42b983; color: ghostwhite">Save changes</button>
+      </div>
+    </div>
+  </div>
+</div>
 </template>
 
 <script>

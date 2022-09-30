@@ -39,7 +39,7 @@ import { computed, onUpdated } from '@vue/runtime-core'
 
 export default {
     name: "RecordTab",
-    props: [ "recordTime", "newRecordTime", "mode", "b", "recordTitleInTimerContainer"],
+    props: [ "recordTime", "newRecordTime", "mode", "allowUpdateRecordTime", "recordTitleInTimerContainer"],
     components: {
         RecordList
     },
@@ -56,9 +56,6 @@ export default {
         let recordTitle = ref("");
         let warning = ref(false);
         let warningMessage = ref("");
-        // let addBtnColor = computed (() => {
-        //     return showAddRecord ? "black" : "red"
-        // }) 
 
         let recordDetails = reactive([
             {
@@ -82,24 +79,38 @@ export default {
             let regex = /^\s*$/;
             if (!regex.test(newRecord.value)) {
 
-                for (const j in recordDetails) {
-                    if (Object.hasOwn(recordDetails, j)) {
-                        const record = recordDetails[j];
-                        console.log(record);
-                        if (newRecord.value == record.name) {
+                // Method one of checking if record exists
+
+                // for (const j in recordDetails) {
+                //     if (Object.hasOwn(recordDetails, j)) {
+                //         const record = recordDetails[j];
+                //         console.log(record);
+                //         if (newRecord.value == record.name) {
+                //             warningMessage.value = `"${newRecord.value}" already exists`;
+                //             warning.value = true;
+
+                //             return
+                //         }
+                //     }
+                // }
+
+                // Method one of checking if record exists, this is easier
+
+                for (const record of recordDetails) {
+                    if (newRecord.value == record.name) {
                             warningMessage.value = `"${newRecord.value}" already exists`;
                             warning.value = true;
 
                             return
                         }
-                    }
                 }
 
+                // Adding a new record to the record details array
                 const NEW_RECORD = reactive({
                     
                     name : newRecord.value,
-                    // time : props.recordTime
-                    time : '00:00:00'
+                    time : props.recordTime
+                    // time : '00:00:00'
 
                 })
 
@@ -138,16 +149,18 @@ export default {
         function toggleShowAddRecord() {
             showAddRecord.value =! showAddRecord.value;
             warning.value = false;
+
             if (showAddRecord.value) {
                 btnColor.value = "red";
             } else if (!showAddRecord.value) {
                 btnColor.value = "#42b983"
             }
+
         }
 
     
         onUpdated(() => {
-            if(props.b){
+            if(props.allowUpdateRecordTime){
                 //  Method one of updating record time
 
                 // for (const j in recordDetails) {
