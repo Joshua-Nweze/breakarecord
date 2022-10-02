@@ -4,7 +4,12 @@
     <router-link to="/"><i class="bi bi-house-door-fill nav-icon"></i></router-link>  
     <router-link to="/settings"><i class="bi bi-gear-fill nav-icon"></i></router-link>
   </nav>
-  <router-view :mode="mode" @toggleMode="toggleMode"/>
+  <router-view 
+    :mode="mode" 
+    :showAnimation="showAnimation" 
+    @toggleMode="toggleMode" 
+    @animation="animation"
+  />
 </div>
   
 </template>
@@ -15,6 +20,7 @@ export default {
 
   setup() {
     let mode = ref("light");
+    let showAnimation = ref(false)
 
     function toggleMode() {
       if (mode.value === "light") {
@@ -24,10 +30,15 @@ export default {
       }
     }
 
-    return { mode, toggleMode }
+    function animation() {
+      showAnimation.value =! showAnimation.value;
+      console.log(showAnimation.value);
+    }
+
+    return { mode, toggleMode, showAnimation, animation }
   },
 
-  emits: ["toggleMode"]
+  // emits: ["toggleMode", "animation"]
 }
 </script>
 

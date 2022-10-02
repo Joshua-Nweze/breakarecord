@@ -24,7 +24,15 @@
 
     <div v-if="noRecord">No record to show</div>
 
-    <RecordList :recordTitle="recordTitle" :recordDetails="recordDetails" @selectRecord="selectRecord" @hideRecordTitle="hideRecordTitle" @deleteRecord="deleteRecord" :mode="mode"/>
+    <RecordList
+        :recordTitle="recordTitle"
+        :recordDetails="recordDetails" 
+        @selectRecord="selectRecord" 
+        @hideRecordTitle="hideRecordTitle"
+        @deleteRecord="deleteRecord"
+        :mode="mode"
+        @editRecordName="editRecordName"
+    />
 
 </template>
 
@@ -40,6 +48,7 @@ import { computed, onUpdated } from '@vue/runtime-core'
 export default {
     name: "RecordTab",
     props: [ "recordTime", "newRecordTime", "mode", "allowUpdateRecordTime", "recordTitleInTimerContainer"],
+    emits: ["setRecord", "selectRecord", "hideRecordTitle", "editRecordName"],
     components: {
         RecordList
     },
@@ -110,7 +119,6 @@ export default {
                     
                     name : newRecord.value,
                     time : props.recordTime
-                    // time : '00:00:00'
 
                 })
 
@@ -158,6 +166,10 @@ export default {
 
         }
 
+        function editRecordName({updatedRecordName, record}){
+            record.name = updatedRecordName.value;
+            ctx.emit("editRecordName")
+        }
     
         onUpdated(() => {
             if(props.allowUpdateRecordTime){
@@ -186,10 +198,9 @@ export default {
             }
         })
 
-        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, selectRecord, btnBorderColor, btnColor, hideRecordTitle, deleteRecord };
+        return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, selectRecord, btnBorderColor, btnColor, hideRecordTitle, deleteRecord, editRecordName };
     },
 
-    emits: ["setRecord", "selectRecord", "hideRecordTitle"]
 
 }
 </script>

@@ -28,7 +28,17 @@
       </div>
       <div class="col-lg-4 col-md-5 col-sm-12 border-start">
         
-          <RecordsTab @setRecord="setRecord" :recordTime="recordTime" @selectRecord="selectRecord" :newRecordTime="newRecordTime" @hideRecordTitle="hideRecordTitle" :mode="mode" :allowUpdateRecordTime="allowUpdateRecordTime" :recordTitleInTimerContainer="recordTitleInTimerContainer"/>
+          <RecordsTab 
+           @setRecord="setRecord"
+           :recordTime="recordTime" 
+           @selectRecord="selectRecord" 
+           :newRecordTime="newRecordTime" 
+           @hideRecordTitle="hideRecordTitle" 
+           :mode="mode" 
+           :allowUpdateRecordTime="allowUpdateRecordTime" 
+           :recordTitleInTimerContainer="recordTitleInTimerContainer"
+           @editRecordName="editRecordName"
+           />
       </div>
     </div>
   </div>
@@ -68,7 +78,8 @@ import { computed } from '@vue/runtime-core';
 export default {
   name: "Timer",
   components: { RecordsTab, Footer },
-  props: ["mode"],
+  props: ["mode", "showAnimation"],
+  emits: ["animation", "editRecordName"],
 
   setup() {
     let hourOne = ref(0);
@@ -170,7 +181,6 @@ export default {
 
     }
 
-    
     function closeRecordTitle() {
       showRecordTitleInTimerContainer.value = false;
       recordTitleInTimerContainer.value = null;
@@ -206,7 +216,19 @@ export default {
 
     }
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime, record_name, recordTimeModalClosed, allowUpdateRecordTime, resetTimer}
+    function editRecordName () {
+      recordTitleInTimerContainer.value = null;
+      showRecordTitleInTimerContainer.value = false
+    }
+
+    function chkBrknRec(a, b) {
+      if (a > b) {
+        console.log("hehe")
+      }
+    }
+    chkBrknRec(secondTwo.value, secondOne.value);
+
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime, record_name, recordTimeModalClosed, allowUpdateRecordTime, resetTimer, chkBrknRec, editRecordName}
   }
 
   

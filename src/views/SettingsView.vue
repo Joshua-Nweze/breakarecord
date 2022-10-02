@@ -19,7 +19,7 @@
 
               <div class="form-check form-check-reverse form-switch mb-3">
                 <label class="form-check-label float-start" for="flexSwitchCheckDefault">New record animation</label>
-                <input class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <input @change="$emit('animation')" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
               </div>
               <hr>
 <!-- Show animation when a record is broken, when na new record is set. -->
@@ -38,7 +38,8 @@ import Footer from '@/components/Footer.vue'
 export default {
     name: "Settings",
     components: { Footer },
-    props: ["mode"],
+    props: ["mode", "showAnimation"],
+    emits: ["toggleMode", "animation"],
 
     setup() {
       
