@@ -38,6 +38,7 @@
            :allowUpdateRecordTime="allowUpdateRecordTime" 
            :recordTitleInTimerContainer="recordTitleInTimerContainer"
            @editRecordName="editRecordName"
+           :showAnimation="showAnimation"
            />
       </div>
     </div>

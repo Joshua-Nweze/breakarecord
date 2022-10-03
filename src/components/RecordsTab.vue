@@ -32,6 +32,7 @@
         @deleteRecord="deleteRecord"
         :mode="mode"
         @editRecordName="editRecordName"
+        :showAnimation="showAnimation"
     />
 
 </template>
@@ -47,7 +48,7 @@ import { computed, onUpdated } from '@vue/runtime-core'
 
 export default {
     name: "RecordTab",
-    props: [ "recordTime", "newRecordTime", "mode", "allowUpdateRecordTime", "recordTitleInTimerContainer"],
+    props: [ "recordTime", "newRecordTime", "mode", "allowUpdateRecordTime", "recordTitleInTimerContainer", "showAnimation" ],
     emits: ["setRecord", "selectRecord", "hideRecordTitle", "editRecordName"],
     components: {
         RecordList

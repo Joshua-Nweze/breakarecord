@@ -12,17 +12,17 @@
               <div class="border-bottom mb-2"> </div> -->
 
               <div class="form-check form-check-reverse form-switch mb-3">
-                <label class="form-check-label float-start" for="flexSwitchCheckDefault">Dark mode</label>
-                <input @change="$emit('toggleMode')" :checked="(mode === 'dark') ? true : false" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <label class="form-check-label float-start" for="">Dark mode</label>
+                <input @change="$emit('toggleMode')" :checked="(mode === 'dark') ? true : false" class="form-check-input" type="checkbox" role="switch" id="darkMode">
               </div>
               <hr>
 
+              <!-- Show animation when a record is broken, when a new record is set. -->
               <div class="form-check form-check-reverse form-switch mb-3">
-                <label class="form-check-label float-start" for="flexSwitchCheckDefault">New record animation</label>
-                <input @change="$emit('animation')" class="form-check-input" type="checkbox" role="switch" id="flexSwitchCheckDefault">
+                <label class="form-check-label float-start" for="">New record animation</label>
+                <input @change="$emit('animation')" :checked="(showAnimation === true) ? true : false" class="form-check-input" type="checkbox" role="switch" id="animation">
               </div>
               <hr>
-<!-- Show animation when a record is broken, when na new record is set. -->
             </div>
           
        </div>

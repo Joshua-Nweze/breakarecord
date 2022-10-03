@@ -46,7 +46,7 @@
                 <h5 class="modal-title" id="exampleModalLabel">Delete "{{ record.name }}"</h5>
               </div>
               <div class="modal-body">
-                You are about to delete "{{ record.name }} this action is irreversible"
+                You are about to delete "{{ record.name }}" this action is irreversible
               </div>
               <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
@@ -55,6 +55,7 @@
             </div>
           </div>
         </div>
+
     </div>
 
   </div>
@@ -66,7 +67,7 @@
 import { ref } from '@vue/reactivity';
 export default {
     name: "RecordList",
-    props: [ "recordTitle", "recordDetails", "mode" ],
+    props: [ "recordTitle", "recordDetails", "mode", "showAnimation" ],
     emits: [ "selectRecord", "hideRecordTitle", "deleteRecord", "editRecordName" ],
     
     setup (props, ctx) {
@@ -79,6 +80,11 @@ export default {
             
         }
 
+        if (props.showAnimation === true) {
+          console.log("animation is set true");
+        } else {
+          console.log("animation not set");
+        }
 
         function deleteRecord(index) {
 

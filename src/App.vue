@@ -32,9 +32,9 @@ export default {
 
     function animation() {
       showAnimation.value =! showAnimation.value;
-      console.log(showAnimation.value);
+      // console.log(showAnimation.value);
     }
-
+    
     return { mode, toggleMode, showAnimation, animation }
   },
 
