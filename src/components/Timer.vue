@@ -67,15 +67,12 @@
   </div>
 
 
-
-
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
 import RecordsTab from "@/components/RecordsTab.vue"
 import Footer from "@/components/Footer.vue"
-import { computed } from '@vue/runtime-core';
 export default {
   name: "Timer",
   components: { RecordsTab, Footer },
@@ -225,7 +222,10 @@ export default {
     function chkBrknRec(a, b) {
       if (a > b) {
         console.log("hehe")
+      } else {
+        console.log("hoho")
       }
+      
     }
     chkBrknRec(secondTwo.value, secondOne.value);
 

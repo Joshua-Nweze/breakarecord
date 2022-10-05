@@ -82,6 +82,7 @@ export default {
 
         if (props.showAnimation === true) {
           console.log("animation is set true");
+          // startConfetti();
         } else {
           console.log("animation not set");
         }
