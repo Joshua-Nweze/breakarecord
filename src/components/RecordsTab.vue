@@ -128,10 +128,10 @@ export default {
                 recordDetails.unshift(NEW_RECORD);
 
                 recordTitle.value = newRecord.value;
-                console.log(newRecord.value);
+                // console.log(newRecord.value);
                 newRecord.value = "";
 
-                console.log(recordDetails);
+                // console.log(recordDetails);
 
                 if (recordDetails.length > 0) {
                     noRecord.value = false;
@@ -142,7 +142,7 @@ export default {
             } else {
                 warningMessage.value = "Enter valid record";
                 warning.value = true;
-                console.log(newRecord.value);
+                // console.log(newRecord.value);
             }
 
         }

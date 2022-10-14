@@ -216,7 +216,7 @@ export default {
       success.value = true;
       getRecordTime.value = true;
 
-      console.log(getRecordTime.value);
+      // console.log(getRecordTime.value);
     }
 
     function recordTimeModalClosed () {
