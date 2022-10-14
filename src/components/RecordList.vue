@@ -65,30 +65,28 @@
 
 <script>
 import { ref } from '@vue/reactivity';
+import { onUpdated } from '@vue/runtime-core';
 export default {
     name: "RecordList",
-    props: [ "recordTitle", "recordDetails", "mode", "showAnimation" ],
+    props: [ "recordTitle", "recordDetails", "mode", "showAnimation", "getRecordTime" ],
+    //NOTE: recordTimeGetter was removed from the emits array
     emits: [ "selectRecord", "hideRecordTitle", "deleteRecord", "editRecordName" ],
     
     setup (props, ctx) {
-        // console.log(props.recordTitle);
         let updatedRecordName = ref(null);
-
         function selectRecord(record){
-
           ctx.emit("selectRecord", record);
             
         }
 
-        if (props.showAnimation === true) {
-          console.log("animation is set true");
-          // startConfetti();
-        } else {
-          console.log("animation not set");
-        }
+        // if (props.showAnimation === true) {
+        //   console.log("animation is set true");
+        //   // startConfetti();
+        // } else {
+        //   console.log("animation not set");
+        // }
 
         function deleteRecord(index) {
-
           ctx.emit("deleteRecord", index)
           ctx.emit("hideRecordTitle")
           
@@ -99,6 +97,14 @@ export default {
           updatedRecordName.value = null;
         }
 
+        // onUpdated(() => {
+        //   if (props.getRecordTime) {
+        //     console.log(props.getRecordTime);
+        //     ctx.emit("recordTimeGetter")
+        //   }
+
+        // })
+        
         return { selectRecord, deleteRecord, editRecordName, updatedRecordName }
     },
 

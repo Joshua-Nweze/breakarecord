@@ -33,10 +33,11 @@
         :mode="mode"
         @editRecordName="editRecordName"
         :showAnimation="showAnimation"
+        :getRecordTime="getRecordTime"
+        :recordTime="recordTime"
     />
 
 </template>
-
 
 
 
@@ -48,7 +49,8 @@ import { computed, onUpdated } from '@vue/runtime-core'
 
 export default {
     name: "RecordTab",
-    props: [ "recordTime", "newRecordTime", "mode", "allowUpdateRecordTime", "recordTitleInTimerContainer", "showAnimation" ],
+    props: [ "recordTime", "newRecordTime", "mode", "allowUpdateRecordTime", "recordTitleInTimerContainer", "showAnimation", "getRecordTime" ],
+    //NOTE: recordTimeGetter was removed from the emits array and RecordList tag
     emits: ["setRecord", "selectRecord", "hideRecordTitle", "editRecordName"],
     components: {
         RecordList
@@ -154,7 +156,6 @@ export default {
                 }
         }
 
-
         function toggleShowAddRecord() {
             showAddRecord.value =! showAddRecord.value;
             warning.value = false;
@@ -171,6 +172,11 @@ export default {
             record.name = updatedRecordName.value;
             ctx.emit("editRecordName")
         }
+
+        // function recordTimeGetter() {
+        //     ctx.emit("recordTimeGetter")
+        // }
+
     
         onUpdated(() => {
             if(props.allowUpdateRecordTime){
@@ -192,16 +198,27 @@ export default {
 
                 for (const record of recordDetails) {
                     if (props.recordTitleInTimerContainer == record.name) {
-                            record.time = props.newRecordTime;
-                        }
+                        record.time = props.newRecordTime;
+                    }
                 }
-                
             }
+
+        //   (function() {
+        //     for (const record of recordDetails) {
+        //         // console.log(props.recordTime);
+        //         if (typeof props.recordTime == 'string') {
+        //             console.log("stringf");
+        //         } else {
+        //             console.log("what!!");
+        //         }
+        //     }
+        //   })();
         })
+
+        //recordTimeGetter was removed from the return object
 
         return { newRecord, setRecord, showAddRecord, toggleShowAddRecord, addBtnColor, recordTitle, warning, recordDetails, warningMessage, noRecord, selectRecord, btnBorderColor, btnColor, hideRecordTitle, deleteRecord, editRecordName };
     },
-
 
 }
 </script>

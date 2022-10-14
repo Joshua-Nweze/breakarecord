@@ -6,7 +6,7 @@
         <div :class="{ 'alert-success': success, 'alert-danger': dangerWarning }"  class="alert alert-dismissible fade show" v-show="showRecordTitleInTimerContainer">
             <strong v-html="recordTitleInTimerContainer"></strong>
             <strong v-html="recordTitleError" v-if="dangerWarning"></strong>
-            <button type="button" class="btn-close" @click="closeRecordTitle"></button>
+            <button type="button" class="btn-close" @click="hideRecordTitle"></button>
         </div>
         
         <span>
@@ -28,17 +28,20 @@
       </div>
       <div class="col-lg-4 col-md-5 col-sm-12 border-start">
         
+
+        <!-- recordTimeGetter custom event has been removed from RecordsTab -->
           <RecordsTab 
            @setRecord="setRecord"
            :recordTime="recordTime" 
            @selectRecord="selectRecord" 
-           :newRecordTime="newRecordTime" 
-           @hideRecordTitle="hideRecordTitle" 
+           :newRecordTime="newRecordTime"
+           @hideRecordTitle="hideRecordTitle"
            :mode="mode" 
            :allowUpdateRecordTime="allowUpdateRecordTime" 
            :recordTitleInTimerContainer="recordTitleInTimerContainer"
            @editRecordName="editRecordName"
            :showAnimation="showAnimation"
+           :getRecordTime="getRecordTime"
            />
       </div>
     </div>
@@ -60,7 +63,7 @@
         </div>
         <div class="modal-footer border-0">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="recordTimeModalClosed">Cancel</button>
-          <button type="button" class="btn" style="background: #42b983; color: ghostwhite" @click="updateRecordTime">Save changes</button>
+          <button type="button" class="btn" style="background: #42b983; color: ghostwhite" data-bs-dismiss="modal" @click="updateRecordTime">Save changes</button>
         </div>
       </div>
     </div>
@@ -73,6 +76,7 @@
 import { ref } from '@vue/reactivity'
 import RecordsTab from "@/components/RecordsTab.vue"
 import Footer from "@/components/Footer.vue"
+import { onUpdated } from '@vue/runtime-core'
 export default {
   name: "Timer",
   components: { RecordsTab, Footer },
@@ -102,21 +106,26 @@ export default {
     let allowUpdateRecordTime = ref(null);
 
     let record_name = ref();
+    let getRecordTime = ref(false);
 
     function startCount() {
         counting.value =! counting.value;
+        // getRecordTime.value =! getRecordTime.value;
 
           if (recordTitleInTimerContainer.value == null) {
             recordTitleError.value = "Enter or click/select record before counting!";
             dangerWarning.value = true;
             showRecordTitleInTimerContainer.value = true;
-            counting.value = false; 
+            counting.value = false;
             // recordTitleInTimerContainer.value = null
 
             return false;
           }
 
+
           if (counting.value) {
+            getRecordTime.value = true;
+            // console.log(getRecordTime.value);
             let i = setInterval(() => {
 
               secondTwo.value++;
@@ -147,8 +156,10 @@ export default {
               
               if (!counting.value) {
                 clearInterval(i);
-                recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
+                // recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
               }
+
+              recordTime.value = `${hourOne.value}${hourTwo.value}:${minuteOne.value}${minuteTwo.value}:${secondOne.value}${secondTwo.value}`;
             }, 1000)
 
           }
@@ -179,16 +190,22 @@ export default {
 
     }
 
-    function closeRecordTitle() {
-      showRecordTitleInTimerContainer.value = false;
-      recordTitleInTimerContainer.value = null;
+    // function closeRecordTitle() {
+    //   showRecordTitleInTimerContainer.value = false;
+    //   recordTitleInTimerContainer.value = null;
+    //   getRecordTime.value = false
+    //   counting.value = false;
       
-      resetTimer()
-    }
+    //   // resetTimer()
+    // }
 
     function hideRecordTitle() {
       showRecordTitleInTimerContainer.value = false;
       recordTitleInTimerContainer.value = null;
+      getRecordTime.value = false;
+      counting.value = false;
+
+      resetTimer();
     }
 
     function selectRecord(record) {
@@ -197,6 +214,9 @@ export default {
       showRecordTitleInTimerContainer.value = true;
       dangerWarning.value = false;
       success.value = true;
+      getRecordTime.value = true;
+
+      console.log(getRecordTime.value);
     }
 
     function recordTimeModalClosed () {
@@ -219,17 +239,17 @@ export default {
       showRecordTitleInTimerContainer.value = false
     }
 
-    function chkBrknRec(a, b) {
-      if (a > b) {
-        console.log("hehe")
-      } else {
-        console.log("hoho")
-      }
-      
-    }
-    chkBrknRec(secondTwo.value, secondOne.value);
+    onUpdated(() => {
+      // console.log(12345678);
+      // function recordTimeGetter() {
+      //   console.log(2345);
+      //   // console.log(recordTime.value);
+      // }
 
-    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, closeRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime, record_name, recordTimeModalClosed, allowUpdateRecordTime, resetTimer, chkBrknRec, editRecordName}
+      // recordTimeGetter()
+    })
+
+    return { hourOne, hourTwo, minuteOne, minuteTwo, secondOne, secondTwo , startCount, recordTitleInTimerContainer, recordTitleError, setRecord, recordTime, counting, showRecordTitleInTimerContainer, success, dangerWarning, selectRecord, hideRecordTitle, newRecordTime, hideRecordTitle, updateRecordTime, record_name, recordTimeModalClosed, allowUpdateRecordTime, resetTimer, editRecordName, getRecordTime}
   }
 
   

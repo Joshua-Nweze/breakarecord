@@ -18,11 +18,11 @@
               <hr>
 
               <!-- Show animation when a record is broken, when a new record is set. -->
-              <div class="form-check form-check-reverse form-switch mb-3">
+              <!-- <div class="form-check form-check-reverse form-switch mb-3">
                 <label class="form-check-label float-start" for="">New record animation</label>
                 <input @change="$emit('animation')" :checked="(showAnimation === true) ? true : false" class="form-check-input" type="checkbox" role="switch" id="animation">
               </div>
-              <hr>
+              <hr> -->
             </div>
           
        </div>
