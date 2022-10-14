@@ -1,5 +1,8 @@
 # breakarecord
 
+## About project
+Breakarecord is a web app built with Vuejs. It keeps track of records and time taken to complete it. Each record can be deleted and editted.
+
 ## Project setup
 ```
 npm install
