@@ -237,6 +237,9 @@ export default {
     function editRecordName () {
       recordTitleInTimerContainer.value = null;
       showRecordTitleInTimerContainer.value = false
+      counting.value = false;
+
+      resetTimer();
     }
 
     onUpdated(() => {

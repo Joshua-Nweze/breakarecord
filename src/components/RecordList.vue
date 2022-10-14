@@ -30,6 +30,9 @@
               <div class="modal-body">
                 <input class="form-control" type="text" placeholder="Enter new name" aria-label="default input example" v-model="updatedRecordName">
               </div>
+              <div class="modal-body fs-6 text-warning">
+                NOTE: Editting a record name while counting will reset the timer
+              </div>
               <div class="modal-footer border-0">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
                 <button type="button" data-bs-dismiss="modal" class="btn" style="background: #42b983; color: ghostwhite" @click="editRecordName(record)">Save changes</button>
