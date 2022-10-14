@@ -51,11 +51,11 @@ export default {
 
 <style>
 .settings-container{
-  height: auto;
+  height: 100%;
 }
 @media only screen and (max-width: 480px) {
   footer{
-    margin-top: 270px;  
+    margin-top: 300px;  
   }
   .settings-menu{
     margin-left: 10px;
