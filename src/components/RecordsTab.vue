@@ -70,10 +70,10 @@ export default {
         let warningMessage = ref("");
 
         let recordDetails = reactive([
-            {
-                name : "beans time",
-                time : 279
-            }
+            // {
+            //     name : "beans time",
+            //     time : 279
+            // }
          ])
 
         function selectRecord(record) {
