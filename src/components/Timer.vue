@@ -230,7 +230,9 @@ export default {
         newRecordTime.value = recordTime.value
         allowUpdateRecordTime.value = true;
 
-        console.log('from update record', recordTitleInTimerContainer.value, recordTime.value);
+        resetTimer()
+
+        // console.log('from update record', recordTitleInTimerContainer.value, recordTime.value);
 
     }
 
