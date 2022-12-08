@@ -1,6 +1,6 @@
 <template>
     <footer>
-        &copy; {{ new Date().getFullYear() }} Breakarecord <br> Designed and built by <a href="">Joshua Nweze</a>
+        &copy; {{ new Date().getFullYear() }} Breakarecord <br> Designed and built by <a href="https://joshuanweze.netlify.app/">Joshua Nweze</a>
     </footer>
 </template>
 
